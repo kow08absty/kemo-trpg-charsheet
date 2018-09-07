@@ -43,6 +43,7 @@ const pdfSaver = function() {
 			vm.setPdfCapturing(true);
 			no_scroll();
 			$("div#render_space").addClass('rendering');
+			$("div#content_wrapper").css('display', 'block');
 			$("html,body").animate({ scrollTop: 0 }, 200);
 
 			setTimeout(function() {
@@ -70,9 +71,10 @@ const pdfSaver = function() {
 						return_scroll();
 						$("button#tool_menu").css('display', '');
 						$("div#render_space").removeClass('rendering');
+						$("div#content_wrapper").css('display', '');
 					}
 				});
-			}, 0);
+			}, 200);
 
 		}
 	}

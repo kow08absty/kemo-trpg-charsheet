@@ -80,7 +80,7 @@ div#render_space {
 }
 
 div#render_space.rendering {
-	width: 800px;
+	width: 796px;
 }
 
 ul#tool_list{
@@ -165,6 +165,9 @@ ul#tool_list li#display_url {
 	}
 	input#share_url{
 		width: auto;
+	}
+	article#contents {
+		margin: 0 auto 0;
 	}
 }
 

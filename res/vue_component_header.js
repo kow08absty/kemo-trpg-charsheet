@@ -6,7 +6,7 @@ Vue.component('custom-header', {
 	`,
 	data: function() {
 		return {
-			version: "2.0"
+			version: "2.0-db01"
 		};
 	}
 });

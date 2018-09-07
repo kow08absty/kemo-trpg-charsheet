@@ -39,44 +39,25 @@ Vue.component('custom-footer', {
 			},
 			using: [
 				"「大きさ」を変更すると「げんき」と「ジャパリコイン」の枚数を自動で上書き修正するよ。アイテムの購入に「ジャパリコイン」を使っていたら、その枚数を改めて計算してね。",
-				"「スキルタイプ」を変更すると「キラキラの最大値」と「野生解放の上限値」を自動で上書き修正するよ。「野生解放の上限値」が変化するアイテム（ネックレスなど）を持っていたら、改めて調整してね。"
+				"「スキルタイプ」を変更すると「キラキラの最大値」と「野生解放の上限値」を自動で上書き修正するよ。「野生解放の上限値」が変化するアイテム（ネックレスなど）を持っていたら、改めて調整してね。",
+				"保存したあとのURLは、大切に保管しておこう。紛失したとき、フレンズのデータが復元できなくなる可能性があるよ。"
 			],
 			pdf_capturing: false,
 			histories: [
 				{
-					date: "2018/09/05",
-					version: "2.0",
+					date: "2018/09/07",
+					version: "2.0-db01",
 					lines: [
-						"Vue.jsでリメイクしたよ。",
-						"保存済みフレンズシートでも常に最新バージョンで表示されるようになったよ。",
-						"「げんき」の現在値を入力できるようになったよ。",
-						"フレンズのイメージを「名前」に被らないように修正したよ。",
-						"フレンズのイメージを上下にもずらせるようにしたよ。",
-						"キーボード操作だけで入力しやすくしたよ。<br>- [TAB] or [Shift + TAB]: フォーカス移動<br>- [ENTER] or [Shift + ENTER]: フォーカス移動（複数行入力欄以外）<br>- [SPACE]: チェック操作, フレンズイメージ指定ボタンの押下"
-					],
-				},
-				{
-					date: "2018/03/29",
-					version: "1.1",
-					lines: [
-						"ロゴが公式サイトのリンクになったよ。",
-						"公式サイトの「フレンズシートの別カラー集」の背景を選択できるようにしたよ。",
-						"フレンズの画像を読み込んだ後にマウスカーソルを乗せると、画像を左右にずらせるボタンが出現するよ。"
-					],
-				},
-				{
-					date: "2018/03/25",
-					version: "1.0",
-					lines: [
-						"公開したよ。"
+						"データベース機能と連携して、URLだけでやり取りできるように改良したよ。オリジナル作者のHillTopさんありがとう！<br />",
+						"HillTopさんの<a href='https://twitter.com/HillTop_TRPG'>ツイッターはこっち</a>、<a href='http://mihikari.sakura.ne.jp/kemonofriends/1/charactersheet/'>フレンズシート入力フォームはこっち</a>だよ。"
 					],
 				}
 			],
 			author: {
 				twitter: {
 					icon_data:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABSUlEQVQ4jaWQP0tCYRjFf+977/WGEIEoFOQcaEPWGE0ttfYBWgLdG6KvUVtDkkNrTeEofYQMrHApoQi8otwiu/8bJO1yb2J24B3e85xzOM8jshVzBzgB0vwNRgAlka2Y7SnMwxD5DzNAWk6iSkhQRfxM/flZn1e47XiYzogr5jQOCjqWB+dNhxvD4+rJHc5DDTYXVS63k6xlBvRcAg5XdRKKYDYhKOY0MjPhKqEGtWeX3SWNi60kja5Ps+ejypHB9eHswfk9YDmloEoQQpBPKeRTSkj8+OZHbhBaoXxvc/3iEQRBRAhQbbkRLhRgeVA3PISInrzd9zlt2OMDAI7qNuU7O9SiawXs1fr0ov7wDTYWFPZXdAppiRCCzqdPteVyXLd5/YhfS2QrZmSiS9AUeHfiLGMafMPyB28SSMCYTBoLQwKlKUOMAEpf5JJreFnFO1QAAAAASUVORK5CYII=',
-					url: 'https://twitter.com/HillTop_TRPG',
-					user: 'HillTop_TRPG',
+					url: 'https://twitter.com/KOW_public',
+					user: 'KOW_public',
 				}
 			}
 		};

@@ -6,7 +6,7 @@ use kow08absty\Util;
 /**
  * @var string このPHPファイルが置かれている、Webルートからの相対パス
  */
-const BASE_URI = '/';
+const BASE_URI = '/kemo_trpg_pc_making/';
 
 
 
@@ -33,13 +33,10 @@ $uuidv4 = Util::isAvailableUuidV4(str_replace(BASE_URI, '', $_SERVER['REQUEST_UR
 
         <link rel="stylesheet" type="text/css" href="./res/main.css" />
 		<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-		<link rel="stylesheet" type="text/css" href="./res/jquery-editable-select.min.css" />
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="./res/clipboard.min.js"></script>
-		<script src="./res/jquery-editable-select.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-		<!--script type="text/javascript" src="./res/main.js"></script-->
 		<script type="text/javascript" src="./res/flowtype.js"></script>
 		<script type="text/javascript" src="./res/FileSaver.js"></script>
 		<script type="text/javascript" src="./res/save_pdf.js"></script>
@@ -245,6 +242,15 @@ $uuidv4 = Util::isAvailableUuidV4(str_replace(BASE_URI, '', $_SERVER['REQUEST_UR
 					});
 				});
 				$('button#savePdf').on('click', pdfSaver.doSave);
+				$('button.tool_switch_small_screen').on('click', () => {
+					if ($('div#tool_box').css('display') == 'block') {
+						$('div#tool_box').hide(150, () => {
+							$('div#tool_box').css('display', '');
+						});
+					} else {
+						$('div#tool_box').show(150);
+					}
+				});
                 new ClipboardJS('button#copyLink');
 			});
 			function showOverlay(content) {
@@ -334,164 +340,6 @@ $uuidv4 = Util::isAvailableUuidV4(str_replace(BASE_URI, '', $_SERVER['REQUEST_UR
 					<custom-overlay ref="overlay"></custom-overlay>
 					<custom-footer ref="footer"></custom-footer>
 				</div>
-				<!--header>フレンズシート入力フォーム Ver.2.0</header>
-				<article id="contents" class='waitForReady'>
-					<img id="background" usemap="#Map" tabindex="-1" />
-					<map name="Map">
-						<area shape="rect" coords="330,10,730,155" href="https://kemo-trpg.jimdo.com/" alt="公式サイトを表示するよ" title="公式サイトを表示するよ" target="_blank">
-					</map>
-					<div id="image">
-						<span>フレンズのイメージを<br>指定しよう！<br>※ドロップインもできるよ！</span>
-						<div id="thumb">
-							<img id="icon" />
-						</div>
-						<div title="押してる間、画像を左にずらすよ。" class="arrow left" style="display: none;"></div>
-						<div title="押してる間、画像を右にずらすよ。" class="arrow right" style="display: none;"></div>
-						<div title="押してる間、画像を上にずらすよ。" class="arrow up" style="display: none;"></div>
-						<div title="押してる間、画像を下にずらすよ。" class="arrow down" style="display: none;"></div>
-					</div>
-					<input id="name" type="text">
-					<div id="identity_check" class="checkbox unchecked" tabindex="0"></div>
-					<textarea id="identity"></textarea>
-					<select id="large" class="font-big">
-						<option value="2">S</option>
-						<option value="3">M</option>
-						<option value="4">L</option>
-					</select>
-					<input id="special_ability_1" class="ability" type="text">
-					<input id="special_ability_2" class="ability" type="text">
-					<input id="special_ability_3" class="ability" type="text">
-					<input id="weak_ability_1" class="ability" type="text">
-					<input id="weak_ability_2" class="ability" type="text">
-					<input id="weak_ability_3" class="ability" type="text">
-					<input id="shine_max" class="font-small" value="" type="text" readonly="" tabindex="-1">
-					<input id="shine" class="font-big" type="number" min="0" max="12">
-					<input id="health_max" type="number" pattern="d*" min="0" max="9" class="font-small">
-					<input id="health" class="font-small" type="number" pattern="d*" min="0" max="9">
-					<input id="coin" class="font-small" type="number" min="0" max="99">
-					<input class="item_name item_1" type="text" />
-					<textarea class="item_effect item_1"></textarea>
-					<input class="item_name item_2" type="text" />
-					<textarea class="item_effect item_2"></textarea>
-					<input class="item_name item_3" type="text" />
-					<textarea class="item_effect item_3"></textarea>
-					<input id="KP" class="font-big" type="number" min="0" max="20">
-					<select id="wild_burst" class="font-small">
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-					</select>
-					<div id="KP_check" class="checkbox unchecked" tabindex="0"></div>
-					<input id="skill_name" type="text">
-					<select id="skill_type" placeholder="選んでね"></select>
-					<textarea id="skill_effect"></textarea>
-					<input id="skill_role" type="text">
-					<input id="player" type="text">
-					<input class="friends friends_1" type="text">
-					<div class="checkbox friends friends_1 unchecked" tabindex="0"></div>
-					<input class="friends friends_2" type="text">
-					<div class="checkbox friends friends_2 unchecked" tabindex="0"></div>
-					<input class="friends friends_3" type="text">
-					<div class="checkbox friends friends_3 unchecked" tabindex="0"></div>
-					<input class="friends friends_4" type="text">
-					<div class="checkbox friends friends_4 unchecked" tabindex="0"></div>
-					<input class="friends friends_5" type="text">
-					<div class="checkbox friends friends_5 unchecked" tabindex="0"></div>
-					<input class="friends friends_6" type="text">
-					<div class="checkbox friends friends_6 unchecked" tabindex="0"></div>
-					<div class="checkbox medal medal1 unchecked" tabindex="0"></div>
-					<div class="checkbox medal medal2 unchecked" tabindex="0"></div>
-					<div class="checkbox medal medal3 unchecked" tabindex="0"></div>
-					<div class="checkbox medal medal4 unchecked" tabindex="0"></div>
-					<div class="checkbox medal medal5 unchecked" tabindex="0"></div>
-					<div class="checkbox medal medal6 unchecked" tabindex="0"></div>
-					<label id="back-normal" class="radio pdf_hide"><input type="radio" name="background" value="normal" checked=""></label>
-					<label id="back-pink" class="radio pdf_hide"><input type="radio" name="background" value="pink"></label>
-					<label id="back-blue" class="radio pdf_hide"><input type="radio" name="background" value="blue"></label>
-					<label id="back-green" class="radio pdf_hide"><input type="radio" name="background" value="green"></label>
-					<label id="back-black" class="radio pdf_hide"><input type="radio" name="background" value="black"></label>
-				</article>
-				<footer>
-					<ul id="target_browser" class="pdf_hide">
-						<li>推奨ブラウザ：Chrome(PDF作成可)</li>
-						<li>対応ブラウザ：FireFox, edge, IE</li>
-					</ul>
-					<div id="using" class="pdf_hide">
-						<h2>入力にあたっての注意</h2>
-						<ol>
-							<li>「大きさ」を変更すると「げんき」と「ジャパリコイン」の枚数を自動で上書き修正するよ。<br>アイテムの購入に「ジャパリコイン」を使っていたら、その枚数を改めて計算してね。</li>
-							<li>「スキルタイプ」を変更すると「キラキラの最大値」と「野生解放の上限値」を自動で上書き修正するよ。<br>「野生解放の上限値」が変化するアイテム（ネックレスなど）を持っていたら、改めて調整してね。</li>
-						</ol>
-					</div>
-					<div id="history" class="pdf_hide">
-						<h2>更新履歴</h2>
-						<ul>
-							<li>
-								<h3>2018/09/05 Ver.2.0</h3>
-								<ul>
-									<li>Vue.jsでリメイクしたよ。</li>
-									<li>保存済みフレンズシートでも常に最新バージョンで表示されるようになったよ。</li>
-									<li>「げんき」の現在値を入力できるようになったよ。</li>
-									<li>フレンズのイメージを「名前」に被らないように修正したよ。</li>
-									<li>フレンズのイメージを上下にもずらせるようにしたよ。</li>
-									<li>キーボード操作だけで入力しやすくしたよ。<br>- [TAB] or [Shift + TAB]: フォーカス移動<br>- [ENTER] or [Shift + ENTER]: フォーカス移動（複数行入力欄以外）<br>- [SPACE]: チェック操作, フレンズイメージ指定ボタンの押下</li>
-								</ul>
-							</li>
-							<li>
-								<h3>2018/03/29 Ver.1.1</h3>
-								<ul>
-									<li>ロゴが公式サイトのリンクになったよ</li>
-									<li>公式サイトの「フレンズシートの別カラー集」の背景を選択できるようにしたよ。</li>
-									<li>フレンズの画像を読み込んだ後にマウスカーソルを乗せると、画像を左右にずらせるボタンが出現するよ。</li>
-								</ul>
-							</li>
-							<li>
-								<h3>2018/03/25 Ver.1.0</h3>
-								<ul>
-									<li>公開したよ。</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-					<div id="author" class="pdf_special">
-						このフォームに関するお問い合わせ先：
-						<a id="twitterLink" href="https://twitter.com/HillTop_TRPG" target="_blank">
-							<svg width="16" height="16" viewBox="0 0 512 512">
-								<path fill="#438dc4" stroke="#438dc4" stroke-width="1"
-									d="M 1.00,452.23
-           C 1.00,484.92 29.76,511.00 59.77,511.00
-             89.78,511.00 422.22,511.00 452.23,511.00
-             482.24,511.00 511.00,484.92 511.00,452.23
-             511.00,419.54 511.00,92.46 511.00,59.77
-             511.00,27.08 482.24,1.00 452.23,1.00
-             422.22,1.00 89.78,1.00 59.77,1.00
-             29.76,1.00 1.00,27.08 1.00,59.77
-             1.00,92.46 1.00,419.54 1.00,452.23 Z" />
-								<path fill="white"
-									d="M 401.88,156.25
-           C 401.88,156.25 430.13,134.63 432.88,116.88
-             413.25,129.38 389.63,136.13 389.22,136.22
-             365.50,109.38 322.00,99.45 285.48,125.91
-             260.38,143.38 251.94,177.56 256.69,201.69
-             175.38,199.38 116.49,137.49 104.97,123.53
-             79.34,174.84 112.14,215.52 127.22,224.74
-             110.00,225.43 101.30,220.35 96.61,215.26
-             94.75,245.38 115.27,273.52 150.39,289.52
-             136.74,293.48 127.54,293.64 122.06,292.81
-             128.25,314.88 154.12,339.26 190.09,344.38
-             174.38,357.13 141.00,376.25 85.00,374.25
-             145.18,413.18 237.50,415.00 306.13,379.13
-             363.75,346.88 404.03,274.72 408.28,186.47
-             432.81,166.88 441.25,150.13 442.38,146.69
-             423.69,155.19 406.81,159.24 402.62,158.87
-             402.16,157.22 401.88,156.25 401.88,156.25 Z" />
-							</svg>
-							@HillTop_TRPG
-						</a>
-					</div>
-				</footer-->
 			</div>
 		</div>
 
@@ -501,7 +349,7 @@ $uuidv4 = Util::isAvailableUuidV4(str_replace(BASE_URI, '', $_SERVER['REQUEST_UR
 
 		<input type="hidden" id="uuidv4" value="<?php echo $uuidv4; ?>" />
 
-		<button id='tool_menu' class="tool_switch_small_screen pdf_hide">保存めにゅー</button>
+		<button id='tool_menu' class="tool_switch_small_screen">保存めにゅー</button>
 
         <div class="loading-icon-container">
     		<div class="loading-icon-animatable"></div>
