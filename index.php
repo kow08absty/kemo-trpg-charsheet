@@ -6,7 +6,7 @@ use kow08absty\Util;
 /**
  * @var string このPHPファイルが置かれている、Webルートからの相対パス
  */
-const BASE_URI = '/kemo_trpg_pc_making/';
+const BASE_URI = '/';
 
 
 
