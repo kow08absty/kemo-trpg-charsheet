@@ -18,14 +18,6 @@ const pdfSaver = function() {
 		$(document).off('.noScroll');
 	}
 
-	let viewOverlay = function(flag) {
-		if (flag) {
-			$("#overlay").fadeIn(50);
-		} else {
-			$("#overlay").fadeOut(50);
-		}
-	}
-
 	let getFileName = function() {
 
 		// ファイル名はキャラ名か現在日付
@@ -50,14 +42,16 @@ const pdfSaver = function() {
 
 			vm.setPdfCapturing(true);
 			no_scroll();
+			$("div#render_space").addClass('rendering');
+			$("html,body").animate({ scrollTop: 0 }, 200);
 
 			setTimeout(function() {
 
 				setTimeout(function() {
-					viewOverlay(true);
+					showOverlay("PDFファイルを作っているよ。<br>ちょっと待ってね。");
 				}, 0);
 
-				html2canvas(document.getElementById("body"), {
+				html2canvas(document.getElementById("render_space"), {
 					onrendered: function (canvas) {
 						var dataURI = canvas.toDataURL("image/png");
 
@@ -71,9 +65,11 @@ const pdfSaver = function() {
 
 						pdf.save(fileName);
 
-						viewOverlay(false);
+						showOverlay(false);
 						vm.setPdfCapturing(false);
 						return_scroll();
+						$("button#tool_menu").css('display', '');
+						$("div#render_space").removeClass('rendering');
 					}
 				});
 			}, 0);

@@ -1,8 +1,8 @@
 Vue.component('custom-header', {
 	template: `
-		<div id="header">
+		<header>
 			フレンズシート入力フォーム Ver.{{version}}
-		</div>
+		</header>
 	`,
 	data: function() {
 		return {

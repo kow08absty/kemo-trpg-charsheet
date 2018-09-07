@@ -1,3 +1,5 @@
+@charset "utf-8";
+
 * {
 	box-sizing: border-box;
 	font-size: 16px;
@@ -7,52 +9,182 @@ body {
 	color: black;
 	margin: 0px;
 	background-color: white;
-	width: 786px;
 }
-img {
-	-ms-user-select: none; /* IE 10+ */
-	-moz-user-select: -moz-none;
-	-khtml-user-select: none;
-	-webkit-user-select: none;
-	-webkit-touch-callout: none;
-	user-select: none;
-}
-img:focus, form:focus {
-	outline: 0;
-}
-#header {
-	top: 4px;
-	left: 20px;
+header {
 	font-size: 13px;
-	position: absolute;
 }
-#footer {
+footer {
 	margin-left: 20px;
 }
-#contents {
-	position: relative;
-	width: 746px;
-	height: 1081px;
-	margin: 20px 0px 0px 24px;
+
+img {
+            user-select: none;
+	    -ms-user-select: none; /* IE 10+ */
+	   -moz-user-select: -moz-none;
+     -khtml-user-select: none;
+	-webkit-user-select: none;
+	-webkit-touch-callout: none;
 }
-#contents * {
-	position: absolute;
+
+img:focus, article:focus {
+	outline: 0;
 }
 
 .pdf_special#author {
+	position: relative;
+	text-align: right;
+	padding-right: 22px;
+	margin: 0;
+	line-height: 1;
+}
+
+button{
+	cursor: pointer;
+	background-color: #cf7c0f;
+	color: white;
+	padding: 6px 12px;
+	line-height: 1.6;
+	border-radius: 4px;
+	border: 1px solid transparent;
+}
+
+button:hover{
+	background-color: #e4a859;
+}
+
+button:active{
+	box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+.tool_switch_small_screen{
+	display: none;
+}
+
+div#tool_box{
+	position: fixed;
+	width: 220px;
+	margin: 30px 10px;
+	z-index: 10;
+}
+
+article#contents {
+	position: relative;
+	width: 746px;
+	max-width: 100%;
+	height: 1081px;
+	margin: 0 auto 0;
+}
+
+div#render_space {
+	margin-left: 239px;
+}
+
+div#render_space.rendering {
+	width: 800px;
+}
+
+ul#tool_list{
+	padding: 4px;
+	border-radius: 4px;
+	border: 1px solid gray;
+	list-style: none;
+}
+
+ul#tool_list li{
+	margin: 4px;
+}
+
+button#saveDB,button#savePdf{
+	width: 100%;
+}
+
+button#remove_sheet {
+	background-color: #790000;
+}
+
+button#remove_sheet:hover {
+	background-color: #ff2323;
+}
+
+ul#tool_list input[type=text]{
+	width: 152px;
+	font-size: 14px;
+	background-color: white;
+	border-radius: 4px;
+	border: 1px solid gray;
+}
+
+ul#tool_list li#display_url {
+	display: none;
+}
+
+@media screen and (max-width: 1000px){
+	.tool_switch_small_screen{
+		display: block;
+	}
+	ul#tool_list{
+		/* width: 100%; */
+		margin: 0px;
+	}
+	div#tool_box{
+		display: none;
+		position: fixed;
+		width: 100%;
+		padding: 20px;
+		background-color: rgba(145, 152, 221, 0.8);
+		border-radius: 10px;
+	}
+	button#tool_close{
+		position: absolute;
+		top: 10px;
+		right: 20px;
+		color: #474747;
+		background-color: #ffffff;
+	}
+	button#tool_close:hover{
+		background-color: #dddddd;
+	}
+	button#tool_menu{
+		position: fixed;
+		right: 1.3em;
+		top: 20px;
+		transform-origin: right;
+		transform: rotate(-90deg);
+		background-color: #535353;
+		color: white;
+	}
+	button#tool_menu:hover{
+		background-color: #858585;
+	}
+	div#render_space {
+		margin: 0;
+	}
+	ul#tool_list li{
+		width: 70%;
+		max-width: 500px;
+	}
+	input#share_url{
+		width: auto;
+	}
+}
+
+button:disabled, button#remove_sheet:disabled{
+	cursor: not-allowed;
+	background-color: #b8b8b8;
+	color: #666666;
+}
+
+article#contents * {
 	position: absolute;
-	top: 1099px;
-	left: 335px;
 }
 
-button#save {
-	top: 10px;
-	left: 26px;
-}
-
-button#savePdf {
-	top: 10px;
-	left: 86px;
+div#content_wrapper {
+	display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+	display: flex;
+	margin: 0;
 }
 
 input[type=radio] {
@@ -62,7 +194,15 @@ input[type=radio] {
 }
 
 .arrow {
+	top: 250px;
+	width: 14px;
+	height: 20px;
+	background-size: 14px 20px;
 	opacity: 0.5;
+	display: none;
+}
+#image_div.hasImg:hover .arrow {
+	display: block;
 }
 .arrow:hover {
 	opacity: 1;
@@ -123,43 +263,39 @@ label.radio:hover {
 
 
 #back-normal {
-	left: 175px;
+	left: 20px;
 }
 #back-normal:before {
 	background-color : rgb(219,105,1);
 }
 
 #back-pink {
-	left: 200px;
+	left: 45px;
 }
 #back-pink:before {
 	background-color : rgb(251,77,86);
 }
 
 #back-blue {
-	left: 225px;
+	left: 70px;
 }
 #back-blue:before {
 	background-color : rgb(87,146,160);
 }
 
 #back-green {
-	left: 250px;
+	left: 95px;
 }
 #back-green:before {
 	background-color : rgb(54,175,71);
 }
 
 #back-black {
-	left: 275px;
+	left: 120px;
 }
 #back-black:before {
 	background-color : rgb(141,141,141);
 }
-
-
-
-
 
 #renderSpace {
 	top: 0px;
@@ -176,14 +312,13 @@ input {
 	height: 100%;
 	text-align: center;
 	position: fixed;
-	position: absolute;
 	top: 0px;
 	left: 0px;
 	z-index: 100;
 	background: rgba(0,0,0,0.7);
 }
 
-#overlay div {
+#overlay div#overlay_content {
 	border: 2px dashed white;
 	border-radius: 10px;
 	box-shadow: 0px 0px 0px 8px orange;
@@ -199,10 +334,15 @@ input {
 
 	vertical-align: middle;
 	position: absolute;
-	top: 200px;
-	left: 250px;
-	width: 300px;
-	height: 100px;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	width: 80%;
+	max-width: 640px;
+	height: 80%;
+	max-height: 240px;
 	font-weight: bold;
 	color: white;
 }
@@ -228,6 +368,10 @@ input {
 	font-size: 14px;
 }
 
+.waitForReady {
+	visibility: hidden;
+}
+
 /***************************************************************************************************
  * テキストエリア
  */
@@ -243,15 +387,20 @@ textarea {
 /***************************************************************************************************
  * セレクトボックス
  */
-select {
+ select {
 	text-align: -webkit-center;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
+	-webkit-appearance: menulist-textfield;
+	-moz-appearance: menulist-textfield;
+	appearance: menulist-textfield;
 	background-color: transparent;
 	text-indent: .01px; /* Firefox用 */
 	text-overflow: ""; /* Firefox用 */
 	border: none;
+}
+select:hover {
+	-webkit-appearance: menulist;
+	-moz-appearance: menulist;
+	appearance: menulist;
 }
 select::-ms-expand {
 	display: none;
@@ -309,10 +458,10 @@ input[type="text"] {
  * イメージ
  */
 #image_div {
-	top: 101px;
-	left: 35px;
-	width: 267px;
-	height: 256px;
+	top: 105px;
+	left: 40px;
+	width: 270px;
+	height: 270px;
 	background-color: transparent;
 	color: black;
 	display: -webkit-flex;
@@ -321,8 +470,7 @@ input[type="text"] {
 	align-items: center;
 	-webkit-justify-content: center;
 	justify-content: center;
-	overflow-x: visible;
-	overflow-y: visible;
+	overflow-x: hidden;
 }
 #image_div span {
 	-moz-user-select: none;
@@ -334,7 +482,7 @@ input[type="text"] {
 	box-shadow: 3px 3px #666;
 
 	position: absolute;
-	top:80px; left: 17px; right: 0px;
+	top: 0px; left: 17px; right: 0px; bottom: 0px;
 
 	font-size: 12px;
 	padding: 6px;
@@ -343,34 +491,21 @@ input[type="text"] {
 
 	display: -webkit-flex;
 	display: flex;
-
 	-webkit-align-items: center;
-	-webkit-justify-content: center;
-/*
-*/
-	justify-content: center;
 	align-items: center;
+	-webkit-justify-content: center;
+	justify-content: center;
 }
 #image_div span:hover {
 	background-color: #ffe;
 }
-#image_div .error_message {
-	color: #f00;
-}
 #image_div span:active {
-	transform: translate(1px,2px);
-	box-shadow: 2px 1px #666;
-}
-#image_div span.active {
 	transform: translate(1px,2px);
 	box-shadow: 2px 1px #666;
 }
 #image_div #thumb {
 	left: 0px;
 	top: 0px;
-	width: 100%;
-	height: 100%;
-	position: relative;
 }
 
 /***************************************************************************************************
@@ -441,14 +576,14 @@ input.ability {
 #shine_max {
 	top: 497px;
 	left: 465px;
-	width: 37px;
+	width: 33px;
 	/*padding-top: 10px;*/
 }
 
 /***************************************************************************************************
  * げんき
  */
-#health_max{
+ #health_max{
 	top: 354px;
 	left: 613px;
 	width: 55px;
@@ -475,7 +610,7 @@ input.ability {
 /***************************************************************************************************
  * アイテム
  */
-input.item_name {
+.item_name {
 	top: 567px;
 	width: 107px;
 	height: 27px;
@@ -506,8 +641,8 @@ textarea.item_effect {
 #wild_burst {
 	top: 696px;
 	left: 627px;
-	width: 40px;
-	text-indent: 16px;
+	width: 50px;
+	text-indent: 10px;
 }
 @-moz-document url-prefix() {
 	#wild_burst {
@@ -557,7 +692,7 @@ textarea.item_effect {
 /***************************************************************************************************
  * スキル演出
  */
-#skill_roll {
+#skill_role {
 	top: 952px;
 	left: 424px;
 	width: 290px;
@@ -599,8 +734,266 @@ input[type="text"].friends {
 .medal { top: 1030px; }
 
 .medal.medal1 { left: 397px; }
-.medal.medal2 { left: 432px; }
-.medal.medal3 { left: 467px; }
-.medal.medal4 { left: 502px; }
-.medal.medal5 { left: 537px; }
-.medal.medal6 { left: 572px; }
+.medal.medal2 { left: 431.5px;  transform: rotate(25deg); }
+.medal.medal3 { left: 466px;  transform: rotate(-15deg); }
+.medal.medal4 { left: 500.5px; transform: rotate(5deg); }
+.medal.medal5 { left: 535px; transform: rotate(-10deg); }
+.medal.medal6 { left: 569.5px;  transform: rotate(-30deg); }
+
+
+.cssload-thecube {
+	width: 17px;
+	height: 17px;
+	margin: 5px auto 0;
+	/* margin-top: 11px; */
+	position: relative;
+	transform: rotateZ(45deg);
+		-o-transform: rotateZ(45deg);
+		-ms-transform: rotateZ(45deg);
+		-webkit-transform: rotateZ(45deg);
+		-moz-transform: rotateZ(45deg);
+}
+.cssload-thecube .cssload-cube {
+	position: relative;
+	transform: rotateZ(45deg);
+		-o-transform: rotateZ(45deg);
+		-ms-transform: rotateZ(45deg);
+		-webkit-transform: rotateZ(45deg);
+		-moz-transform: rotateZ(45deg);
+}
+.cssload-thecube .cssload-cube {
+	float: left;
+	width: 50%;
+	height: 50%;
+	position: relative;
+	transform: scale(1.1);
+		-o-transform: scale(1.1);
+		-ms-transform: scale(1.1);
+		-webkit-transform: scale(1.1);
+		-moz-transform: scale(1.1);
+}
+.cssload-thecube .cssload-cube:before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgb(255,255,255);
+	animation: cssload-fold-thecube 2.28s infinite linear both;
+		-o-animation: cssload-fold-thecube 2.28s infinite linear both;
+		-ms-animation: cssload-fold-thecube 2.28s infinite linear both;
+		-webkit-animation: cssload-fold-thecube 2.28s infinite linear both;
+		-moz-animation: cssload-fold-thecube 2.28s infinite linear both;
+	transform-origin: 100% 100%;
+		-o-transform-origin: 100% 100%;
+		-ms-transform-origin: 100% 100%;
+		-webkit-transform-origin: 100% 100%;
+		-moz-transform-origin: 100% 100%;
+}
+.cssload-thecube .cssload-c2 {
+	transform: scale(1.1) rotateZ(90deg);
+		-o-transform: scale(1.1) rotateZ(90deg);
+		-ms-transform: scale(1.1) rotateZ(90deg);
+		-webkit-transform: scale(1.1) rotateZ(90deg);
+		-moz-transform: scale(1.1) rotateZ(90deg);
+}
+.cssload-thecube .cssload-c3 {
+	transform: scale(1.1) rotateZ(180deg);
+		-o-transform: scale(1.1) rotateZ(180deg);
+		-ms-transform: scale(1.1) rotateZ(180deg);
+		-webkit-transform: scale(1.1) rotateZ(180deg);
+		-moz-transform: scale(1.1) rotateZ(180deg);
+}
+.cssload-thecube .cssload-c4 {
+	transform: scale(1.1) rotateZ(270deg);
+		-o-transform: scale(1.1) rotateZ(270deg);
+		-ms-transform: scale(1.1) rotateZ(270deg);
+		-webkit-transform: scale(1.1) rotateZ(270deg);
+		-moz-transform: scale(1.1) rotateZ(270deg);
+}
+.cssload-thecube .cssload-c2:before {
+	animation-delay: 0.285s;
+		-o-animation-delay: 0.285s;
+		-ms-animation-delay: 0.285s;
+		-webkit-animation-delay: 0.285s;
+		-moz-animation-delay: 0.285s;
+}
+.cssload-thecube .cssload-c3:before {
+	animation-delay: 0.57s;
+		-o-animation-delay: 0.57s;
+		-ms-animation-delay: 0.57s;
+		-webkit-animation-delay: 0.57s;
+		-moz-animation-delay: 0.57s;
+}
+.cssload-thecube .cssload-c4:before {
+	animation-delay: 0.855s;
+		-o-animation-delay: 0.855s;
+		-ms-animation-delay: 0.855s;
+		-webkit-animation-delay: 0.855s;
+		-moz-animation-delay: 0.855s;
+}
+
+
+
+@keyframes cssload-fold-thecube {
+	0%, 10% {
+		transform: perspective(31px) rotateX(-180deg);
+		opacity: 0;
+	}
+	25%,
+				75% {
+		transform: perspective(31px) rotateX(0deg);
+		opacity: 1;
+	}
+	90%,
+				100% {
+		transform: perspective(31px) rotateY(180deg);
+		opacity: 0;
+	}
+}
+
+@-o-keyframes cssload-fold-thecube {
+	0%, 10% {
+		-o-transform: perspective(31px) rotateX(-180deg);
+		opacity: 0;
+	}
+	25%,
+				75% {
+		-o-transform: perspective(31px) rotateX(0deg);
+		opacity: 1;
+	}
+	90%,
+				100% {
+		-o-transform: perspective(31px) rotateY(180deg);
+		opacity: 0;
+	}
+}
+
+@-ms-keyframes cssload-fold-thecube {
+	0%, 10% {
+		-ms-transform: perspective(31px) rotateX(-180deg);
+		opacity: 0;
+	}
+	25%,
+				75% {
+		-ms-transform: perspective(31px) rotateX(0deg);
+		opacity: 1;
+	}
+	90%,
+				100% {
+		-ms-transform: perspective(31px) rotateY(180deg);
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes cssload-fold-thecube {
+	0%, 10% {
+		-webkit-transform: perspective(31px) rotateX(-180deg);
+		opacity: 0;
+	}
+	25%,
+				75% {
+		-webkit-transform: perspective(31px) rotateX(0deg);
+		opacity: 1;
+	}
+	90%,
+				100% {
+		-webkit-transform: perspective(31px) rotateY(180deg);
+		opacity: 0;
+	}
+}
+
+@-moz-keyframes cssload-fold-thecube {
+	0%, 10% {
+		-moz-transform: perspective(31px) rotateX(-180deg);
+		opacity: 0;
+	}
+	25%,
+				75% {
+		-moz-transform: perspective(31px) rotateX(0deg);
+		opacity: 1;
+	}
+	90%,
+				100% {
+		-moz-transform: perspective(31px) rotateY(180deg);
+		opacity: 0;
+	}
+}
+
+.loading-icon-container {
+	position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: -5;
+}
+
+.loading-icon-container>.loading-icon-animatable {
+	width: 40px;
+	height: 40px;
+	-webkit-transform-origin: 51% 65%;
+		-ms-transform-origin: 51% 65%;
+			transform-origin: 51% 65%;
+	background: url("./image/loading.png") no-repeat;
+	background-size: cover;
+	-webkit-animation: loadingIconRotate 1s infinite ease-in-out both, loadingIconScale 1s infinite ease-in-out both;
+			animation: loadingIconRotate 1s infinite ease-in-out both, loadingIconScale 1s infinite ease-in-out both;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+}
+
+.loading-icon-container>.loading-text {
+    position: relative;
+    top: 10px;
+    left: -30px;
+    -webkit-animation: loadingIconOpacity 1s infinite ease-in-out both;
+            animation: loadingIconOpacity 1s infinite ease-in-out both;
+}
+
+@-webkit-keyframes loadingIconScale {
+	50%{
+	  	width: 30px;
+	  	height: 30px;
+	}
+}
+
+@keyframes loadingIconScale {
+	50%{
+	  	width: 30px;
+	  	height: 30px;
+	}
+}
+
+@-webkit-keyframes loadingIconOpacity {
+    50% {
+		opacity: 0.3;
+    }
+}
+
+@keyframes loadingIconOpacity {
+    50% {
+		opacity: 0.3;
+    }
+}
+
+@-webkit-keyframes loadingIconRotate {
+	from {
+	  	-webkit-transform: rotateZ(0deg);
+			    transform: rotateZ(0deg);
+	}
+	to {
+	  	-webkit-transform: rotateZ(-720deg);
+			    transform: rotateZ(-720deg);
+	}
+}
+
+@keyframes loadingIconRotate {
+	from {
+	  	-webkit-transform: rotateZ(0deg);
+			    transform: rotateZ(0deg);
+	}
+	to {
+	  	-webkit-transform: rotateZ(-720deg);
+		        transform: rotateZ(-720deg);
+	}
+}

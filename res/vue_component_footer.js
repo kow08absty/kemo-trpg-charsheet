@@ -1,6 +1,6 @@
 Vue.component('custom-footer', {
 	template: `
-	<div id="footer">
+	<footer>
 		<ul id="target_browser" v-show="!pdf_capturing">
 			<li>推奨ブラウザ：{{target_browser.preference}}</li>
 			<li>対応ブラウザ：{{target_browser_support}}</li>
@@ -29,7 +29,7 @@ Vue.component('custom-footer', {
 				<img :src="author.twitter.icon_data"> @{{author.twitter.user}}
 			</a>
 		</div>
-	</div>
+	</footer>
 	`,
 	data: function() {
 		return {

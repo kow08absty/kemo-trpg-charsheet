@@ -1,7 +1,15 @@
+var backgroundImage = {
+	"normal": "./res/image/sheet_normal.png",
+	"blue": "./res/image/sheet_blue.png",
+	"green": "./res/image/sheet_green.png",
+	"pink": "./res/image/sheet_pink.png",
+	"black": "./res/image/sheet_black.png"
+};
+
 Vue.component('custom-contents', {
 	template: `
-		<form action="#" id="contents" @submit.prevent @contextmenu.prevent @drop.stop.prevent tabIndex="-1">
-			<img id="background" usemap="#Map" :src="background_image" @dragover.prevent @mousedown.prevent tabIndex="-1">
+		<article id="contents" class="waitForReady" tabIndex="-1">
+			<img id="background" usemap="#Map" :src="background_image" @dragover.prevent @mousedown.prevent tabIndex="-1" @load="waitForReady">
 			<map name="Map">
 				<area shape="rect" coords="330,10,730,155" href="https://kemo-trpg.jimdo.com/" alt="公式サイトを表示するよ" title="公式サイトを表示するよ" target="_blank" tabIndex="-1">
 			</map>
@@ -22,8 +30,6 @@ Vue.component('custom-contents', {
 				<input type="radio" name="background" value="black" @click="black">
 			</label>
 
-			<button id="save" v-show="!pdf_capturing" @click="doSaveHtml">保存</button>
-			<button id="savePdf" v-show="!pdf_capturing" v-if="show_pdf_save" @click="doSavePdf">PDF保存</button>
 			<input id="name" v-model="data.name" type="text">
 
 			<div id="image_div" @mouseover="showArrow()" @mouseleave="hideArrow()" @dragleave.prevent @dragover.prevent @drop.prevent="dropImage">
@@ -40,9 +46,9 @@ Vue.component('custom-contents', {
 			<div id="identity_check" class="checkbox" :class="{checked: data.identity.checked}" @click="checkFunc('identity', 'checked')" @keydown.space.stop @keydown.space.prevent @keyup.space="checkFunc('identity', 'checked')" tabIndex="0"></div>
 			<textarea id="identity" v-model="data.identity.text"></textarea>
 			<select id="size" class="font-big" v-model="data.size">
-				<option value="4">４</option>
-				<option value="3">３</option>
-				<option value="2">２</option>
+				<option value="4">L</option>
+				<option value="3">M</option>
+				<option value="2">S</option>
 			</select>
 			<input v-for="(item, index) in data.special_abilities" :id="'special_ability_' + (index + 1)" v-model="item.text" class="ability" type="text">
 			<input v-for="(item, index) in data.weak_abilities" :id="'weak_ability_' + (index + 1)" v-model="item.text" class="ability" type="text">
@@ -73,14 +79,14 @@ Vue.component('custom-contents', {
 				<option v-for="(obj, name) in skills" v-bind:value="name">{{name}}</option>
 			</select>
 			<textarea id="skill_effect" v-model="skill_effect" readonly tabIndex="-1"></textarea>
-			<input id="skill_roll" v-model="data.skill.roll" type="text">
+			<input id="skill_role" v-model="data.skill.role" type="text">
 			<input id="player" v-model="data.player" type="text">
 			<div v-for="(medal, index) in data.medals" class="checkbox medal" :class="[ {checked: medal}, 'medal' + (index + 1) ]" @click="checkFunc('medals', index)" @keydown.space.prevent @keyup.space="checkFunc('medals', index)" tabIndex="0"></div>
-		</form>
+		</article>
 	`,
 	data: function() {
 		return {
-			data: charactorData,
+			data: characterData,
 			image_data_error: false,
 			image_loading: false,
 			arrowIntervalId: null,
@@ -344,6 +350,35 @@ Vue.component('custom-contents', {
 		},
 		getSaveJson: function() {
 			return this.data;
+		},
+		startBlinkAnim: function($target) {
+			$target.css('background-color', '#e8e');
+			setTimeout(function () {
+				$target.animate({
+					backgroundColor: 'transparent'
+				}, 700);
+			}, 200);
+		},
+		visibilityFadeIn: function($target, duration=300, callback=()=>{}) {
+			$target
+				.css({'opacity': 0, 'visibility': 'visible'})
+				.animate({'opacity': 1}, duration, callback);
+		},
+		visibilityFadeOut: function($target, duration=300, callback=()=>{}) {
+			$target
+				.css({'opacity': 1, 'visibility': 'visible'})
+				.animate({'opacity': 0}, duration, ()=>{
+					$target.css('visibility', 'hidden');
+					callback();
+				});
+		},
+		waitForReady: function() {
+			$('.waitForReady').each((idx, elem)=>{
+				this.visibilityFadeIn($(elem));
+			});
+			this.visibilityFadeIn($('#background'), 300, ()=>{
+				this.visibilityFadeOut($('div.loading-icon-container'));
+			});
 		}
 	},
 	computed: {
@@ -381,9 +416,12 @@ Vue.component('custom-contents', {
 				this.data.health.max.min = health;
 				this.data.coin = this.sizeTable[val]["coin"];
 				console.log(this.createLogText("data.size"));
-				setTimeout(function() {
-						alert("“げんき”と“ジャパリコイン”を再設定したよ。");
-				}, 100);
+				this.startBlinkAnim($("#health_max"));
+				this.startBlinkAnim($("#health"));
+				this.startBlinkAnim($("#coin"));
+				// setTimeout(function() {
+				// 		alert("“げんき”と“ジャパリコイン”を再設定したよ。");
+				// }, 100);
 			}
 		},
 		'data.shine'              : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.shine")); } },
@@ -399,23 +437,29 @@ Vue.component('custom-contents', {
 		'data.items'              : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.items")); } },
 		'data.KP'                 : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.KP")); } },
 		'data.wild_burst'         : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.wild_burst")); } },
-		'data.skill': {
+		'data.skill.type': {
 			deep: true, immediate: false,
 			handler: function (val, oldVal) {
 				let dat = this.skills[this.data.skill.type];
 				if (!dat) {
 					return;
 				}
+				if (this.data.shine.max.value != dat["shine_max"]) {
+					this.startBlinkAnim($("#shine_max"));
+				}
 				this.data.wild_burst = dat["wild_burst"];
 				this.data.shine.max.value = dat["shine_max"];
 				this.data.shine.max.max = dat["shine_max"] + 3;
 				if (this.data.shine.value > this.data.shine.max.value) {
 					this.data.shine.value = this.data.shine.max.value;
+					this.startBlinkAnim($("#shine"));
 				}
-				console.log(this.createLogText("data.skill.name", "data.skill.type", "skill_effect", "data.skill.roll"));
-				setTimeout(function() {
-						alert("“キラキラ最大値”と“野生解放上限”を変更したよ。");
-				}, 100);
+				console.log(this.createLogText("data.skill.name", "data.skill.type", "skill_effect", "data.skill.role"));
+				this.startBlinkAnim($("#wild_burst"));
+				this.startBlinkAnim($("#skill_effect"));
+				// setTimeout(function() {
+				// 		alert("“キラキラ最大値”と“野生解放上限”を変更したよ。");
+				// }, 100);
 			}
 		},
 		'data.special_abilities'  : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.special_abilities")); } },
