@@ -1,0 +1,12 @@
+#### パーマリンクを有効化するときのテンプレート ####
+
+# need to run 'a2enmod rewrite'
+RewriteEngine On
+# index.phpが置かれている、Webルートからの相対パス
+RewriteBase /kemo_trpg_pc_making/
+# index.phpの正規表現
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteBase + RewriteRule
+RewriteRule . /kemo_trpg_pc_making/index.php [L]
