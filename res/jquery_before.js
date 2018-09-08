@@ -44,7 +44,7 @@ $(document).on("change", "input[type=text]", function(e) {
 			minimum: 1,
 			maxFont:  22,
 			minFont:   1,
-			fontRatio:  $this.val().length
+			fontRatio:  $this.val().length + 2
 		});
 });
 
@@ -56,7 +56,7 @@ $(document).on("change", "select", function(e) {
 			minimum: 1,
 			maxFont:  22,
 			minFont:   1,
-			fontRatio:  $this.val().length
+			fontRatio:  $this.val().length + 2
 		});
 });
 

@@ -19,6 +19,12 @@ const vm = new Vue({
 		setPdfCapturing: function(flg) {
 			this.$refs.contents.setPdfCapturing(flg);
 			this.$refs.footer.setPdfCapturing(flg);
+		},
+		hideItemPreset: function() {
+			this.$refs.contents.selectItemPreset(false);
+		},
+		getVersionStrings: function() {
+			return CONST_HISTORIES[0].version;
 		}
 	}
 });
