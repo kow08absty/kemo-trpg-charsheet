@@ -26,9 +26,9 @@ Vue.component('custom-footer', {
 			このフォームを作ったヒト：
 			<span v-show="pdf_capturing"><img :src="author.twitter.icon_data"> @{{author.twitter.user}}</span>
 			<a v-show="!pdf_capturing" :href="author.twitter.url" target="_blank"><img :src="author.twitter.icon_data"> @{{author.twitter.user}}</a>
-			<!-- span v-show="!pdf_capturing" style="padding-left: 10px;">
+			<span v-show="!pdf_capturing" style="padding-left: 10px;">
 				<a :href="author.github.url" target="_blank"><img :src="author.github.icon_data" /> @{{author.github.user}}</a> GitHubにはソースコードも上げてるよ
-			</span -->
+			</span>
 		</div>
 	</footer>
 	`,
