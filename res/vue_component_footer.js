@@ -23,11 +23,12 @@ Vue.component('custom-footer', {
 			</ul>
 		</div>
 		<div id="author" :class="{ pdf_special: pdf_capturing }">
-			このフォームに関するお問い合わせ先：
+			このフォームを作ったヒト：
 			<span v-show="pdf_capturing"><img :src="author.twitter.icon_data"> @{{author.twitter.user}}</span>
-			<a id="twitterLink" v-show="!pdf_capturing" :href="author.twitter.url" target="_blank">
-				<img :src="author.twitter.icon_data"> @{{author.twitter.user}}
-			</a>
+			<a v-show="!pdf_capturing" :href="author.twitter.url" target="_blank"><img :src="author.twitter.icon_data"> @{{author.twitter.user}}</a>
+			<!-- span v-show="!pdf_capturing" style="padding-left: 10px;">
+				<a :href="author.github.url" target="_blank"><img :src="author.github.icon_data" /> @{{author.github.user}}</a> GitHubにはソースコードも上げてるよ
+			</span -->
 		</div>
 	</footer>
 	`,
@@ -40,24 +41,21 @@ Vue.component('custom-footer', {
 			using: [
 				"「大きさ」を変更すると「げんき」と「ジャパリコイン」の枚数を自動で上書き修正するよ。アイテムの購入に「ジャパリコイン」を使っていたら、その枚数を改めて計算してね。",
 				"「スキルタイプ」を変更すると「キラキラの最大値」と「野生解放の上限値」を自動で上書き修正するよ。「野生解放の上限値」が変化するアイテム（ネックレスなど）を持っていたら、改めて調整してね。",
+				"「アイテム」プリセットを実装したよ。初期アイテムの中から、購入したいものを選ぼう。「ジャパリコイン」を手動で書き換えていなければ、必要なコインが引き算されるよ。",
 				"保存したあとのURLは、大切に保管しておこう。紛失したとき、フレンズのデータが復元できなくなる可能性があるよ。"
 			],
 			pdf_capturing: false,
-			histories: [
-				{
-					date: "2018/09/07",
-					version: "2.0-db01",
-					lines: [
-						"データベース機能と連携して、URLだけでやり取りできるように改良したよ。オリジナル作者のHillTopさんありがとう！<br />",
-						"HillTopさんの<a href='https://twitter.com/HillTop_TRPG'>ツイッターはこっち</a>、<a href='http://mihikari.sakura.ne.jp/kemonofriends/1/charactersheet/'>フレンズシート入力フォームはこっち</a>だよ。"
-					],
-				}
-			],
+			histories: CONST_HISTORIES,
 			author: {
 				twitter: {
 					icon_data:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABSUlEQVQ4jaWQP0tCYRjFf+977/WGEIEoFOQcaEPWGE0ttfYBWgLdG6KvUVtDkkNrTeEofYQMrHApoQi8otwiu/8bJO1yb2J24B3e85xzOM8jshVzBzgB0vwNRgAlka2Y7SnMwxD5DzNAWk6iSkhQRfxM/flZn1e47XiYzogr5jQOCjqWB+dNhxvD4+rJHc5DDTYXVS63k6xlBvRcAg5XdRKKYDYhKOY0MjPhKqEGtWeX3SWNi60kja5Ps+ejypHB9eHswfk9YDmloEoQQpBPKeRTSkj8+OZHbhBaoXxvc/3iEQRBRAhQbbkRLhRgeVA3PISInrzd9zlt2OMDAI7qNuU7O9SiawXs1fr0ov7wDTYWFPZXdAppiRCCzqdPteVyXLd5/YhfS2QrZmSiS9AUeHfiLGMafMPyB28SSMCYTBoLQwKlKUOMAEpf5JJreFnFO1QAAAAASUVORK5CYII=',
 					url: 'https://twitter.com/KOW_public',
-					user: 'KOW_public',
+					user: 'KOW_public'
+				},
+				github: {
+					icon_data: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACaklEQVQ4T42TUUhaYRTH/x9UWj74GpowTYTWS5uptFgvDuphxohGsMinqCi7sC5C0Nuoh1g2aNXLDBx3mqMQiVEPky1UQnpYru0KzYqlKPkaCFEPd9yz6XJssg8unPOd//l99zvnfEySJAk3Vjabxf7+PqLRKFKiSJHbra3o6uqC1WqFTqe7KQcrAWROwO8HPzVVIfjT8Swu4sngIBhjFCKAnDw3N4flpaWqyaWgi+MwMzNDEAIIggA3z+Mpz8PpdEIURYRCIdTV1VFOIpHAwsICDAYDZO0LjwfPPR4MDQ2B5XI56W5bGwmXV1fR39+P6+trotfU1NC+7NfW1pK9ubkJ1/g42Z+SSbA3giCV7p08PERjY2PVa2QyGVjb20kj14ONjo5K4VAIGq0WH3d3oVarqwIuLi5gt9uRPTvDo74+MJvNJn0/PcXD3l54vd7/KuLw8DDebW3hlsEAdq+jQzo5PsYdsxnb29vl9vyLJHesp6cHnw8O0Gw0gnEcJ71dXyd9NB6HyWSq+hfpdBr3OztJ83hgACwYDEqTLheU9fVQNTTgfSSCpqamv0JyuRzcbjc+RCIUf7myAlYoFCST0QStTgu9Xo+dnR2YzWaEw2FoNBoSypXnOA6Jvb0K8BdR/DlIGxsbmJyYwNdUCvl8niBjY2Pljpyfn6OlpQWKX7MgU16trcHhcPx+C/Pz84jH4/D7/VAoFPSV1tXVFR7Y7fh2dERbz2ZnMTIyQnb5McmOPL7T09N0WiAQgEqlIlGxWESzXk/2a0FAd3d3GV4BkHdjsRg9ZZ7noVQqSXh5eQmfz0e1sVgsFXX4AVYg/gjDPZ0mAAAAAElFTkSuQmCC',
+					url: 'https://github.com/kow08absty',
+					user: 'kow08absty'
 				}
 			}
 		};

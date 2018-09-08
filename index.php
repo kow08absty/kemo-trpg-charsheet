@@ -32,7 +32,7 @@ $uuidv4 = Util::isAvailableUuidV4(str_replace(BASE_URI, '', $_SERVER['REQUEST_UR
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <link rel="stylesheet" type="text/css" href="./res/main.css" />
-		<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="./res/clipboard.min.js"></script>
@@ -356,6 +356,7 @@ $uuidv4 = Util::isAvailableUuidV4(str_replace(BASE_URI, '', $_SERVER['REQUEST_UR
             <span class="loading-text">読み込み中……</span>
 		</div>
 
+		<script type="text/javascript" src="./res/vue_histories.js"></script>
 		<script type="text/javascript" src="./res/vue_component_header.js"></script>
 		<script type="text/javascript" src="./res/vue_component_contents.js"></script>
 		<script type="text/javascript" src="./res/vue_component_overlay.js"></script>

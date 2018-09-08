@@ -58,7 +58,7 @@ Vue.component('custom-contents', {
 			<input id="shine_max" class="font-small" type="number" pattern="\d*" v-model="data.shine.max.value" :min="shine.min" :max="data.shine.max.max" tabIndex="0">
 			<input id="coin" class="font-small" type="number" pattern="\d*" :min="coin.min" :max="coin.max" v-model="data.coin">
 			<template v-for="(item, index) in data.items">
-				<input class="item_name" :class="'item_' + (index + 1)" v-model="item.name" type="text">
+				<input type="text" class="item_name" :class="'item_' + (index + 1)" v-model="item.name" @click="showItemPreset(index)"    />
 				<textarea class="item_effect" :class="'item_' + (index + 1)" v-model="item.effect"></textarea>
 			</template>
 			<input id="KP" class="font-big" type="number" pattern="\d*" :min="KP.min" :max="KP.max" v-model="data.KP.value">
@@ -82,9 +82,12 @@ Vue.component('custom-contents', {
 			<input id="skill_role" v-model="data.skill.role" type="text">
 			<input id="player" v-model="data.player" type="text">
 			<div v-for="(medal, index) in data.medals" class="checkbox medal" :class="[ {checked: medal}, 'medal' + (index + 1) ]" @click="checkFunc('medals', index)" @keydown.space.prevent @keyup.space="checkFunc('medals', index)" tabIndex="0"></div>
+			<ul id="presetItems">
+				<li v-for="(obj, name) in presetItems" v-bind:value="name" @mouseup="selectItemPreset(name)">{{name}}</li>
+			</ul>
 		</article>
 	`,
-	data: function() {
+	data: function () {
 		return {
 			data: characterData,
 			image_data_error: false,
@@ -160,59 +163,82 @@ Vue.component('custom-contents', {
 				2: { "health": 2, "coin": 3 },
 				3: { "health": 3, "coin": 2 },
 				4: { "health": 4, "coin": 1 }
+			},
+			itemPriceAll: 0,
+			coinInitial: 0,
+			/**
+			 * @property プルダウンから選べるプリセットアイテム群
+			 */
+			presetItems: {
+				'ジャパリまん': {
+					'effect': 'いつでも使える。げんきを1回復する。フィールド時、フロントに居る場合は主行動。',
+					'coin': 1
+				},
+				'リング': {
+					'effect': 'ダメージを1点減点する。使うと壊れる。',
+					'coin': 2
+				},
+				'ウェポン': {
+					'effect': '判定ダイス1個の出目を+1する。キラキラ3個消費。',
+					'coin': 2
+				},
+				'ニンブルハンド': {
+					'effect': '判定ダイス1個の出目を-1する。キラキラ3個消費。',
+					'coin': 2
+				}
 			}
 		}
 	},
 	methods: {
-		initial: function() {
-				if (typeof Blob !== "undefined") {
-					// alert('このブラウザに対応しています');
-				} else {
-					alert('このブラウザには対応していません');
-				}
+		initial: function () {
+			if (typeof Blob !== "undefined") {
+				// alert('このブラウザに対応しています');
+			} else {
+				alert('このブラウザには対応していません');
+			}
 
-				var pdfValid = false;
-				var userAgent = window.navigator.userAgent.toLowerCase();
-				if (userAgent.indexOf('msie') != -1 ||
-					userAgent.indexOf('trident') != -1) {
-					// IE
-				} else if(userAgent.indexOf('edge') != -1) {
-					// Edge
-				} else if(userAgent.indexOf('chrome') != -1) {
-					// Chrome
-					pdfValid = true;
-				} else if(userAgent.indexOf('safari') != -1) {
-					// safari
-				} else if(userAgent.indexOf('firefox') != -1) {
-					// FireFox
-				} else if(userAgent.indexOf('opera') != -1) {
-					// Opera
-				} else {
-					// 知らんやつ
-				}
-				if (pdfValid) {
-					this.show_pdf_save = true;
-				} else {
-					this.show_pdf_save = false;
-				}
+			var pdfValid = false;
+			var userAgent = window.navigator.userAgent.toLowerCase();
+			if (userAgent.indexOf('msie') != -1 ||
+				userAgent.indexOf('trident') != -1) {
+				// IE
+			} else if (userAgent.indexOf('edge') != -1) {
+				// Edge
+			} else if (userAgent.indexOf('chrome') != -1) {
+				// Chrome
+				pdfValid = true;
+			} else if (userAgent.indexOf('safari') != -1) {
+				// safari
+			} else if (userAgent.indexOf('firefox') != -1) {
+				// FireFox
+			} else if (userAgent.indexOf('opera') != -1) {
+				// Opera
+			} else {
+				// 知らんやつ
+			}
+			if (pdfValid) {
+				this.show_pdf_save = true;
+			} else {
+				this.show_pdf_save = false;
+			}
 		},
-		doSaveHtml: function() {
+		doSaveHtml: function () {
 			htmlSaver.doSave();
 		},
-		doSavePdf: function() {
+		doSavePdf: function () {
 			pdfSaver.doSave();
 		},
-		setPdfCapturing: function(flg) {
+		setPdfCapturing: function (flg) {
 			this.pdf_capturing = flg;
 		},
-		clickSelectFile: function() {
+		clickSelectFile: function () {
 			this.image_press_space = false;
 			imageLoader.clickSelectFile();
 		},
-		pressImageSpace: function() {
+		pressImageSpace: function () {
 			this.image_press_space = true;
 		},
-		dropImage: function(e) {
+		dropImage: function (e) {
 
 			let file = e.dataTransfer.files[0];
 			if (!file) {
@@ -224,27 +250,27 @@ Vue.component('custom-contents', {
 			return false;
 
 		},
-		normal: function() {
+		normal: function () {
 			this.data.background = 'normal';
 		},
-		pink: function() {
+		pink: function () {
 			this.data.background = 'pink';
 		},
-		blue: function() {
+		blue: function () {
 			this.data.background = 'blue';
 		},
-		green: function() {
+		green: function () {
 			this.data.background = 'green';
 		},
-		black: function() {
+		black: function () {
 			this.data.background = 'black';
 		},
-		setImage: function(imageObj) {
+		setImage: function (imageObj) {
 			this.data.image = imageObj;
 			this.image_data_error = false;
 			this.image_loading = false;
 		},
-		setImageError: function() {
+		setImageError: function () {
 			let imageObj = this.data.image;
 			if (imageObj.data != "" || imageObj.padding_top != 0 || imageObj.padding_left != 0) {
 				this.data.image = {
@@ -256,7 +282,7 @@ Vue.component('custom-contents', {
 			this.image_data_error = true;
 			this.image_loading = false;
 		},
-		imageLoading: function() {
+		imageLoading: function () {
 			let imageObj = this.data.image;
 			if (imageObj.data != "" || imageObj.padding_top != 0 || imageObj.padding_left != 0) {
 				this.data.image = {
@@ -268,9 +294,9 @@ Vue.component('custom-contents', {
 			this.image_data_error = false;
 			this.image_loading = true;
 		},
-		arrow: function(direction) {
+		arrow: function (direction) {
 			let imageObj = this.data.image;
-			switch(direction) {
+			switch (direction) {
 				case "left":
 					imageObj.padding_left -= 1;
 					break;
@@ -286,21 +312,21 @@ Vue.component('custom-contents', {
 				default:
 			}
 		},
-		startArrow: function(direction) {
+		startArrow: function (direction) {
 			let _this = this;
 			this.arrow(direction);
-			this.arrowIntervalId = setInterval(function() { _this.arrow(direction); }, 100);
+			this.arrowIntervalId = setInterval(function () { _this.arrow(direction); }, 100);
 		},
-		clearArrow: function() {
+		clearArrow: function () {
 			clearInterval(this.arrowIntervalId);
 		},
-		showArrow: function() {
+		showArrow: function () {
 			this.on_mouse_image_area = true;
 		},
-		hideArrow: function() {
+		hideArrow: function () {
 			this.on_mouse_image_area = false;
 		},
-		checkFunc: function(...targets) {
+		checkFunc: function (...targets) {
 			let targetObj = this.data;
 			let objRoot = this.data[targets[0]];
 			for (let i = 0; i < targets.length - 1; i++) {
@@ -311,7 +337,7 @@ Vue.component('custom-contents', {
 			this.data[targets[0]] = objRoot;
 			return false;
 		},
-		createLogText: function(...targets) {
+		createLogText: function (...targets) {
 			let text = "$watch - ";
 			for (target of targets) {
 				let targetObj = this;
@@ -323,7 +349,7 @@ Vue.component('custom-contents', {
 			text = text.slice(0, text.length - 2);
 			return text;
 		},
-		createLogTextSub: function(targetObj, text) {
+		createLogTextSub: function (targetObj, text) {
 			if (!text) text = '';
 			if (targetObj instanceof Array) {
 				text += "[ ";
@@ -348,64 +374,109 @@ Vue.component('custom-contents', {
 			}
 			return text;
 		},
-		getSaveJson: function() {
+		getSaveJson: function () {
 			return this.data;
 		},
-		startBlinkAnim: function($target) {
-			$target.css('background-color', '#e8e');
-			setTimeout(function () {
+		startBlinkAnim: ($target, color='#e8e') => {
+			$target.css('background-color', color);
+			setTimeout(() => {
 				$target.animate({
 					backgroundColor: 'transparent'
 				}, 700);
 			}, 200);
 		},
-		visibilityFadeIn: function($target, duration=300, callback=()=>{}) {
+		/**
+		 * visibilityを使ったjQueryフェードイン
+		 * @param jQuery $target ターゲットjQueryアイテム
+		 * @param Number duration アニメーションの長さ（ミリ秒）
+		 * @param lambda callback アニメーション終了時のコールバック
+		 */
+		visibilityFadeIn: function ($target, duration = 300, callback = function () { }) {
 			$target
-				.css({'opacity': 0, 'visibility': 'visible'})
-				.animate({'opacity': 1}, duration, callback);
+				.css({ 'opacity': 0, 'visibility': 'visible' })
+				.animate({ 'opacity': 1 }, duration, callback);
 		},
-		visibilityFadeOut: function($target, duration=300, callback=()=>{}) {
+		/**
+		 * visibilityを使ったjQueryフェードアウト
+		 * @param jQuery $target ターゲットjQueryアイテム
+		 * @param Number duration アニメーションの長さ（ミリ秒）
+		 * @param lambda callback アニメーション終了時のコールバック
+		 */
+		visibilityFadeOut: function ($target, duration = 300, callback = function () { }) {
 			$target
-				.css({'opacity': 1, 'visibility': 'visible'})
-				.animate({'opacity': 0}, duration, ()=>{
+				.css({ 'opacity': 1, 'visibility': 'visible' })
+				.animate({ 'opacity': 0 }, duration, function () {
 					$target.css('visibility', 'hidden');
 					callback();
 				});
 		},
-		waitForReady: function() {
-			$('.waitForReady').each((idx, elem)=>{
+		/**
+		 * 読み込み完了を検知したときに発火させる
+		 */
+		waitForReady: function () {
+			$('.waitForReady').each((idx, elem) => {
 				this.visibilityFadeIn($(elem));
 			});
-			this.visibilityFadeIn($('#background'), 300, ()=>{
-				this.visibilityFadeOut($('div.loading-icon-container'));
+			this.visibilityFadeOut($('div.loading-icon-container'));
+		},
+		/**
+		 * アイテムプリセットを表示
+		 * @param Number index アイテム欄インデックス値
+		 */
+		showItemPreset: function (index) {
+			this.itemIdxSetTarget = index;
+			let $targetElement = $('input.item_name.item_' + (index + 1));
+			$('ul#presetItems').css({
+				top: ($targetElement.position().top + $targetElement.height()) + 'px',
+				left: $targetElement.position().left + 'px',
+				display: 'block'
 			});
+		},
+		/**
+		 * アイテムプリセットから選択
+		 * @param any name アイテム名; false, undefinedのときプリセット一覧を閉じるだけ
+		 */
+		selectItemPreset: function (name) {
+			$('ul#presetItems').css('display', '');
+			if (!name)
+				return;
+			let index = this.itemIdxSetTarget;
+			console.log("%s => %s", name, this.presetItems[name]['effect']);
+			this.data.items[index].name = name;
 		}
 	},
 	computed: {
-		background_image: function() { return backgroundImage[this.data.background]; },
-		skill_effect: function() { return this.skills[this.data.skill.type] ? this.skills[this.data.skill.type]["effect"] : ''; },
-		image_span_message: function() {
+		background_image: function () { return backgroundImage[this.data.background]; },
+		skill_effect: function () { return this.skills[this.data.skill.type] ? this.skills[this.data.skill.type]["effect"] : ''; },
+		image_span_message: function () {
 			let text = 'フレンズのイメージを<br>指定しよう！<br>※ドロップインもできるよ！';
 			if (this.image_data_error) text = 'JPEGまたはPNGファイルを指定してね。';
 			if (this.image_loading) text = '読み込み中...読み込み中...';
 			return text;
 		},
-		image_style: function() {
+		image_style: function () {
 			return { 'left': this.data.image.padding_left + 'px', 'top': this.data.image.padding_top + 'px' }
 		},
-		is_show_arrow: function() {
+		is_show_arrow: function () {
 			return this.on_mouse_image_area && this.data.image.data;
 		}
 	},
 	watch: {
-		'pdf_capturing'           : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("pdf_capturing")); } },
-		'image_loading'					  : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("image_loading")); } },
-		'data.background'         : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.background")); } },
-		'data.name'               : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.name")); } },
-		'data.image.data'         : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.image.data")); } },
-		'data.image.padding_top'  : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.image.padding_top")); } },
-		'data.image.padding_left' : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.image.padding_left")); } },
-		'data.identity'           : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.identity")); } },
+		'pdf_capturing': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("pdf_capturing")); } },
+		'image_loading': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("image_loading")); } },
+		'data.background': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.background")); } },
+		'data.name': {
+			deep: false, immediate: true,
+			handler: function (val, oldVal) {
+				// 文字の大きさジャストフィットをフック
+				$('input#name').val(val).trigger('change', [true]);
+				console.log(this.createLogText("data.name"));
+			}
+		},
+		'data.image.data': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.image.data")); } },
+		'data.image.padding_top': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.image.padding_top")); } },
+		'data.image.padding_left': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.image.padding_left")); } },
+		'data.identity': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.identity")); } },
 		'data.size': {
 			deep: true, immediate: false,
 			handler: function (val, oldVal) {
@@ -414,7 +485,8 @@ Vue.component('custom-contents', {
 				this.data.health.value = health;
 				this.data.health.max.value = health;
 				this.data.health.max.min = health;
-				this.data.coin = this.sizeTable[val]["coin"];
+				this.bCoinUserInput = false;
+				this.coinInitial = this.sizeTable[val]["coin"];
 				console.log(this.createLogText("data.size"));
 				this.startBlinkAnim($("#health_max"));
 				this.startBlinkAnim($("#health"));
@@ -424,21 +496,78 @@ Vue.component('custom-contents', {
 				// }, 100);
 			}
 		},
-		'data.shine'              : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.shine")); } },
-		'data.health.value'       : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.health.value")); } },
-		'data.health.max.value'   : { deep: true, immediate: true, handler: function (val, oldVal) {
-			if (this.data.health.value > this.data.health.max.value) {
-				this.data.health.value = this.data.health.max.value;
+		'data.shine': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.shine")); } },
+		'data.health.value': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.health.value")); } },
+		'data.health.max.value': {
+			deep: true, immediate: true, handler: function (val, oldVal) {
+				if (this.data.health.value > this.data.health.max.value) {
+					this.data.health.value = this.data.health.max.value;
+				}
+				console.log(this.createLogText("data.health.max.value"));
 			}
-			console.log(this.createLogText("data.health.max.value"));
-		}},
-		'data.health.max.min'     : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.health.max.min")); } },
-		'data.coin'               : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.coin")); } },
-		'data.items'              : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.items")); } },
-		'data.KP'                 : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.KP")); } },
-		'data.wild_burst'         : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.wild_burst")); } },
+		},
+		'data.health.max.min': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.health.max.min")); } },
+		'data.coin': {
+			deep: false, immediate: false,
+			handler: function (val, oldVal) {
+				if(typeof(val) == 'string'){
+					this.bCoinUserInput = true;
+				}
+				if(val < 0){
+					this.startBlinkAnim($('input#coin'), '#ffaaaa');
+					$('input#coin').css('color', 'red');
+				} else {
+					$('input#coin').css('color', '');
+				}
+				console.log(this.createLogText("data.coin"));
+			}
+		},
+		'coinInitial': {
+			deet: false, immediate: false,
+			handler: function(val, oldVal) {
+				console.log(this.createLogText('coinInitial'));
+				if(!this.bCoinUserInput)
+					this.data.coin = this.coinInitial - this.itemPriceAll;
+			}
+		},
+		'itemPriceAll': {
+			deep: false, immediate: false,
+			handler: function(val, oldVal){
+				console.log(this.createLogText('itemPriceAll'));
+				if(!this.bCoinUserInput)
+					this.data.coin = this.coinInitial - this.itemPriceAll;
+			}
+		},
+		'data.items': {
+			deep: true, immediate: true,
+			handler: function (val, oldVal) {
+				if (oldVal) {
+					for (idx in this.data.items) {
+						let
+							newName = this.data.items[idx].name,
+							oldName = this.currentItemValueArr[idx].name;
+						if (newName != oldName) {
+							if(this.presetItems[newName]){
+								this.itemPriceAll += this.presetItems[newName]['coin'];
+								this.startBlinkAnim($('textarea.item_effect.item_' + (Number(idx) + 1)));
+								// 文字の大きさジャストフィットをフック
+								$('input.item_name.item_' + (Number(idx) + 1)).val(newName).trigger('change', [true]);
+								this.data.items[idx].effect = this.presetItems[newName]['effect'];
+							}
+							if(this.presetItems[oldName]) {
+								this.itemPriceAll -= this.presetItems[oldName]['coin'];
+							}
+							break;
+						}
+					}
+				}
+				this.currentItemValueArr = JSON.parse(JSON.stringify(this.data.items));
+			}
+		},
+		'data.KP': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.KP")); } },
+		'data.wild_burst': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.wild_burst")); } },
 		'data.skill.type': {
-			deep: true, immediate: false,
+			deep: false, immediate: false,
 			handler: function (val, oldVal) {
 				let dat = this.skills[this.data.skill.type];
 				if (!dat) {
@@ -454,6 +583,8 @@ Vue.component('custom-contents', {
 					this.data.shine.value = this.data.shine.max.value;
 					this.startBlinkAnim($("#shine"));
 				}
+				// 文字の大きさジャストフィットをフック
+				$('select#skill_type').val(val).trigger('change', [true]);
 				console.log(this.createLogText("data.skill.name", "data.skill.type", "skill_effect", "data.skill.role"));
 				this.startBlinkAnim($("#wild_burst"));
 				this.startBlinkAnim($("#skill_effect"));
@@ -462,11 +593,45 @@ Vue.component('custom-contents', {
 				// }, 100);
 			}
 		},
-		'data.special_abilities'  : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.special_abilities")); } },
-		'data.weak_abilities'     : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.weak_abilities")); } },
-		'data.friends'            : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.friends")); } },
-		'data.player'             : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.player")); } },
-		'data.medals'             : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.medals")); } },
-		'shine'                   : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("shine")); } },
+		'data.special_abilities': {
+			deep: true, immediate: true,
+			handler: function (val, oldVal) {
+				for(idx in val){
+					// 文字の大きさジャストフィットをフック
+					$('input#special_ability_' + (Number(idx) + 1)).val(val[idx].text).trigger('change', [true]);
+				}
+				console.log(this.createLogText("data.special_abilities"));
+			}
+		},
+		'data.weak_abilities': {
+			deep: true, immediate: true,
+			handler: function (val, oldVal) {
+				for(idx in val){
+					// 文字の大きさジャストフィットをフック
+					$('input#weak_ability_' + (Number(idx) + 1)).val(val[idx].text).trigger('change', [true]);
+				}
+				console.log(this.createLogText("data.weak_abilities"));
+			}
+		},
+		'data.friends': {
+			deep: true, immediate: true,
+			handler: function (val, oldVal) {
+				for(idx in val){
+					// 文字の大きさジャストフィットをフック
+					$('input.friends.friends_' + (Number(idx) + 1)).val(val[idx].name).trigger('change', [true]);
+				}
+				console.log(this.createLogText("data.friends"));
+			}
+		},
+		'data.player': {
+			deep: false, immediate: true,
+			handler: function (val, oldVal) {
+				// 文字の大きさジャストフィットをフック
+				$('input#player').val(val).trigger('change', [true]);
+				console.log(this.createLogText("data.player"));
+			}
+		},
+		'data.medals': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.medals")); } },
+		'shine': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("shine")); } },
 	}
 });
