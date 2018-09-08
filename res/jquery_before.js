@@ -60,7 +60,7 @@ $(document).on("change", "select", function (e) {
 		});
 });
 
-// アイテムプリセット閉じる動作を一括登録
+// アイテムプリセット制御の動作を一括登録
 $(document).on("click", "html", (e) => {
 	if (e.target.className.split(' ').indexOf('item_name') == -1) {
 		vm.hideItemPreset();
