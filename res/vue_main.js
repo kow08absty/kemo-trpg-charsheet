@@ -1,30 +1,33 @@
 const vm = new Vue({
 	el: '#app',
 	methods: {
-		setImage: function(imageData, paddingLeft) {
+		setImage: function (imageData, paddingLeft) {
 			this.$refs.contents.setImage(imageData, paddingLeft);
 		},
-		setImageError: function() {
+		setImageError: function () {
 			this.$refs.contents.setImageError();
 		},
-		initial: function() {
+		initial: function () {
 			this.$refs.contents.initial();
 		},
-		imageLoading: function() {
+		imageLoading: function () {
 			this.$refs.contents.imageLoading();
 		},
-		getSaveJson: function() {
+		getSaveJson: function () {
 			return this.$refs.contents.getSaveJson();
 		},
-		setPdfCapturing: function(flg) {
+		setPdfCapturing: function (flg) {
 			this.$refs.contents.setPdfCapturing(flg);
 			this.$refs.footer.setPdfCapturing(flg);
 		},
-		hideItemPreset: function() {
+		hideItemPreset: function () {
 			this.$refs.contents.selectItemPreset(false);
 		},
-		getVersionStrings: function() {
+		getVersionStrings: function () {
 			return CONST_HISTORIES[0].version;
+		},
+		showItemPreset: function (index) {
+			this.$refs.contents.showItemPreset(index);
 		}
 	}
 });

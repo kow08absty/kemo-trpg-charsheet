@@ -72,7 +72,7 @@ article#contents {
 	width: 746px;
 	max-width: 100%;
 	height: 1081px;
-	margin: 0 auto 0;
+	margin-left: 18px;
 }
 
 div#render_space {
@@ -639,16 +639,34 @@ article#contents ul#presetItems{
 	padding: 0;
 	max-height: 150px;
 	background-color: white;
-	box-shadow: 3px 3px 5px #868686;
+	box-shadow: 3px 3px 5px #b4b4b4;
 	border: 1px solid #bdbdbd;
 }
 article#contents ul#presetItems li {
 	position: relative;
-	padding: 2px 0 2px 4px;
+	margin: 0;
+	padding: 2px 4px;
 	cursor: pointer;
 }
 article#contents ul#presetItems li:hover {
-	background-color: #d1d1d1;
+	background-color: #7c7c7c;
+	color: white;
+}
+
+article#contents button#itemEraser {
+	display: none;
+	background-color: darkred;
+	color: white;
+	font-size: 16px;
+	padding: 1px 2px;
+	margin: 0;
+	opacity: 0.4;
+}
+article#contents button#itemEraser * {
+	position: relative;
+}
+article#contents button#itemEraser:hover {
+	opacity: 1;
 }
 
 /***************************************************************************************************
@@ -700,7 +718,7 @@ article#contents ul#presetItems li:hover {
 #skill_type {
 	top: 834px;
 	left: 579px;
-	width: 131px;
+	width: 135px;
 	height: 39px;
 	text-align: center;
 }
