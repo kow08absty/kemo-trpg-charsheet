@@ -427,7 +427,10 @@ Vue.component('custom-contents', {
 		waitForReady: function (sw) {
 			if (sw) {
 				$('.waitForReady').css('visibility', 'hidden');
-				$('div.loading-icon-container').css('visibility', 'visible');
+				$('div.loading-icon-container').css({
+					visibility: 'visible',
+					opacity: 1
+				});
 			} else {
 				$('.waitForReady').each((idx, elem) => {
 					this.visibilityFadeIn($(elem));
