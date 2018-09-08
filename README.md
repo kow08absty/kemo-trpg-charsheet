@@ -1,21 +1,22 @@
 てーぶるちほーの大冒険 フレンズシート入力フォーム
 ====
 
-Forked by http://mihikari.sakura.ne.jp/kemonofriends/1/charactersheet/
+Forked from http://mihikari.sakura.ne.jp/kemonofriends/1/charactersheet/
+by [@HillTop_TRPG](https://twitter.com/HillTop_TRPG)
 
 ## Description
 
-HillTopさん（[@HillTop_TRPG](https://twitter.com/HillTop_TRPG)）が作成したフレンズシート入力フォームを改良したよ。
+HillTop さん（[@HillTop_TRPG](https://twitter.com/HillTop_TRPG)）が作成したフレンズシート入力フォームを改良したよ。
 
-+ データベース機能と連携してURLだけでやりとりできる
-+ 一部UIをちょいちょいといじってる
++ データベース機能と連携して URL だけでやりとりできる
++ 一部 UI をちょいちょいといじってる
 + 一部データの扱い方をちょいちょいといじってる
 
 とくに目立った機能追加はしていないから、使いやすいほうの入力フォームを使ってね。
 
-かさねてHilliTopさんありがとう！
+かさねて HillTop さんありがとう！
 
-## Requirement
+## Tested environments
 
 サーバOS:
 
@@ -26,7 +27,7 @@ HillTopさん（[@HillTop_TRPG](https://twitter.com/HillTop_TRPG)）が作成し
 
 + Apache 2.4
 + PHP 7.1 or above
-+ SQLite3
++ SQLite 3.22
 
 ブラウザ:
 
@@ -46,4 +47,5 @@ Public Domain
 ## Author
 
 [kow08absty](https://github.com/kow08absty)
+
 [@KOW_public](https://twitter.com/KOW_public)
