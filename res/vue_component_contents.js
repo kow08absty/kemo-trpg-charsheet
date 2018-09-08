@@ -9,7 +9,7 @@ var backgroundImage = {
 Vue.component('custom-contents', {
 	template: `
 		<article id="contents" class="waitForReady" tabIndex="-1">
-			<img id="background" usemap="#Map" :src="background_image" @dragover.prevent @mousedown.prevent tabIndex="-1" @load="waitForReady">
+			<img id="background" usemap="#Map" :src="background_image" @dragover.prevent @mousedown.prevent tabIndex="-1" @load="waitForReady(false)">
 			<map name="Map">
 				<area shape="rect" coords="330,10,730,155" href="https://kemo-trpg.jimdo.com/" alt="公式サイトを表示するよ" title="公式サイトを表示するよ" target="_blank" tabIndex="-1">
 			</map>
@@ -422,13 +422,18 @@ Vue.component('custom-contents', {
 				});
 		},
 		/**
-		 * 読み込み完了を検知したときに発火させる
+		 * @param bool sw 読み込み完了まで待機させたいとき false，読み込み完了を通知するとき true
 		 */
-		waitForReady: function () {
-			$('.waitForReady').each((idx, elem) => {
-				this.visibilityFadeIn($(elem));
-			});
-			this.visibilityFadeOut($('div.loading-icon-container'));
+		waitForReady: function (sw) {
+			if (sw) {
+				$('.waitForReady').css('visibility', 'hidden');
+				$('div.loading-icon-container').css('visibility', 'visible');
+			} else {
+				$('.waitForReady').each((idx, elem) => {
+					this.visibilityFadeIn($(elem));
+				});
+				this.visibilityFadeOut($('div.loading-icon-container'));
+			}
 		},
 		/**
 		 * アイテムプリセットを表示
@@ -502,7 +507,12 @@ Vue.component('custom-contents', {
 	watch: {
 		'pdf_capturing': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("pdf_capturing")); } },
 		'image_loading': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("image_loading")); } },
-		'data.background': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.background")); } },
+		'data.background': {
+			deep: true, immediate: true,
+			handler: function (val, oldVal) {
+				this.waitForReady(true);
+			}
+		},
 		'data.name': {
 			deep: false, immediate: true,
 			handler: function (val, oldVal) {
