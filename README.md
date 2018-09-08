@@ -31,7 +31,7 @@ HillTop さん（[@HillTop_TRPG](https://twitter.com/HillTop_TRPG)）が作成�
 
 ブラウザ:
 
-Google Chrome 68 or above
++ Google Chrome 68 or above
 
 ## Install
 

@@ -58,7 +58,7 @@ Vue.component('custom-contents', {
 			<input id="shine_max" class="font-small" type="number" pattern="\d*" v-model="data.shine.max.value" :min="shine.min" :max="data.shine.max.max" tabIndex="0">
 			<input id="coin" class="font-small" type="number" pattern="\d*" :min="coin.min" :max="coin.max" v-model="data.coin">
 			<template v-for="(item, index) in data.items">
-				<input type="text" class="item_name" :class="'item_' + (index + 1)" v-model="item.name" @click="showItemPreset(index)"    />
+				<input type="text" class="item_name" :class="'item_' + (index + 1)" v-model="item.name" />
 				<textarea class="item_effect" :class="'item_' + (index + 1)" v-model="item.effect"></textarea>
 			</template>
 			<input id="KP" class="font-big" type="number" pattern="\d*" :min="KP.min" :max="KP.max" v-model="data.KP.value">
@@ -82,6 +82,17 @@ Vue.component('custom-contents', {
 			<input id="skill_role" v-model="data.skill.role" type="text">
 			<input id="player" v-model="data.player" type="text">
 			<div v-for="(medal, index) in data.medals" class="checkbox medal" :class="[ {checked: medal}, 'medal' + (index + 1) ]" @click="checkFunc('medals', index)" @keydown.space.prevent @keyup.space="checkFunc('medals', index)" tabIndex="0"></div>
+			<button id="itemEraser" @click="clearItem()">
+					<svg version="1.1" width="18px" height="18px" viewBox="0 0 26 26" style="padding-top:2px;">
+						<path fill="none" stroke="white" stroke-width="2.0803" stroke-miterlimit="10" d="M17,4.429C17,5.849,15.881,7,14.5,7h-3  C10.119,7,9,5.849,9,4.429V3.571C9,2.15,10.119,1,11.5,1h3C15.881,1,17,2.15,17,3.571V4.429z"/>
+						<path fill="none" stroke="white" stroke-width="2" stroke-miterlimit="10" d="M21,23c0,1.104-0.896,2-2,2H7c-1.104,0-2-0.896-2-2  V6h16V23z"/>
+						<line fill="none" stroke="white" stroke-width="2" stroke-miterlimit="10" x1="17" y1="10" x2="17" y2="22"/>
+						<line fill="none" stroke="white" stroke-width="2" stroke-miterlimit="10" x1="13" y1="10" x2="13" y2="22"/>
+						<line fill="none" stroke="white" stroke-width="2" stroke-miterlimit="10" x1="9" y1="10" x2="9" y2="22"/>
+						<path fill="white" d="M23,6V5c0-0.551-0.449-1-1-1H4C3.449,4,3,4.449,3,5v1H2v2h2h18h2V6H23z"/>
+					</svg>
+					クリア
+			</button>
 			<ul id="presetItems">
 				<li v-for="(obj, name) in presetItems" v-bind:value="name" @mouseup="selectItemPreset(name)">{{name}}</li>
 			</ul>
@@ -377,7 +388,7 @@ Vue.component('custom-contents', {
 		getSaveJson: function () {
 			return this.data;
 		},
-		startBlinkAnim: ($target, color='#e8e') => {
+		startBlinkAnim: ($target, color = '#e8e') => {
 			$target.css('background-color', color);
 			setTimeout(() => {
 				$target.animate({
@@ -425,24 +436,51 @@ Vue.component('custom-contents', {
 		 */
 		showItemPreset: function (index) {
 			this.itemIdxSetTarget = index;
-			let $targetElement = $('input.item_name.item_' + (index + 1));
-			$('ul#presetItems').css({
+			let
+				$targetElement = $('input.item_name.item_' + (index + 1)),
+				$presetItems = $('ul#presetItems'),
+				$eraseButton = $('button#itemEraser');
+			$presetItems.css({
 				top: ($targetElement.position().top + $targetElement.height()) + 'px',
-				left: $targetElement.position().left + 'px',
+				left: $targetElement.position().left + 'px'
+			});
+			$eraseButton.css({
+				top: ($targetElement.position().top - $eraseButton.height() - 4) + 'px',
+				left: ($targetElement.position().left) + 'px',
 				display: 'block'
 			});
+			if ($presetItems.css('display') != 'block') {
+				$presetItems.slideDown(100);
+			}
 		},
 		/**
 		 * アイテムプリセットから選択
 		 * @param any name アイテム名; false, undefinedのときプリセット一覧を閉じるだけ
 		 */
 		selectItemPreset: function (name) {
-			$('ul#presetItems').css('display', '');
-			if (!name)
+			$('button#itemEraser').css('display', '');
+			$('ul#presetItems').slideUp(100, () => {
+				$('ul#presetItems').css('display', '');
+			});
+			if (name === false || name === undefined)
 				return;
 			let index = this.itemIdxSetTarget;
+			if (index === false || index === undefined) {
+				console.log("想定外: this.itemIdxSetTarget = " + index);
+				return;
+			}
 			console.log("%s => %s", name, this.presetItems[name]['effect']);
 			this.data.items[index].name = name;
+		},
+		clearItem: function () {
+			let index = this.itemIdxSetTarget;
+			if (index === false || index === undefined) {
+				console.log("想定外: this.itemIdxSetTarget = " + index);
+				return;
+			}
+			this.data.items[index].name = "";
+			this.data.items[index].effect = "";
+			this.selectItemPreset(false);
 		}
 	},
 	computed: {
@@ -510,10 +548,10 @@ Vue.component('custom-contents', {
 		'data.coin': {
 			deep: false, immediate: false,
 			handler: function (val, oldVal) {
-				if(typeof(val) == 'string'){
+				if (typeof (val) == 'string') {
 					this.bCoinUserInput = true;
 				}
-				if(val < 0){
+				if (val < 0) {
 					this.startBlinkAnim($('input#coin'), '#ffaaaa');
 					$('input#coin').css('color', 'red');
 				} else {
@@ -524,17 +562,17 @@ Vue.component('custom-contents', {
 		},
 		'coinInitial': {
 			deet: false, immediate: false,
-			handler: function(val, oldVal) {
+			handler: function (val, oldVal) {
 				console.log(this.createLogText('coinInitial'));
-				if(!this.bCoinUserInput)
+				if (!this.bCoinUserInput)
 					this.data.coin = this.coinInitial - this.itemPriceAll;
 			}
 		},
 		'itemPriceAll': {
 			deep: false, immediate: false,
-			handler: function(val, oldVal){
+			handler: function (val, oldVal) {
 				console.log(this.createLogText('itemPriceAll'));
-				if(!this.bCoinUserInput)
+				if (!this.bCoinUserInput)
 					this.data.coin = this.coinInitial - this.itemPriceAll;
 			}
 		},
@@ -547,14 +585,14 @@ Vue.component('custom-contents', {
 							newName = this.data.items[idx].name,
 							oldName = this.currentItemValueArr[idx].name;
 						if (newName != oldName) {
-							if(this.presetItems[newName]){
+							if (this.presetItems[newName]) {
 								this.itemPriceAll += this.presetItems[newName]['coin'];
 								this.startBlinkAnim($('textarea.item_effect.item_' + (Number(idx) + 1)));
 								// 文字の大きさジャストフィットをフック
 								$('input.item_name.item_' + (Number(idx) + 1)).val(newName).trigger('change', [true]);
 								this.data.items[idx].effect = this.presetItems[newName]['effect'];
 							}
-							if(this.presetItems[oldName]) {
+							if (this.presetItems[oldName]) {
 								this.itemPriceAll -= this.presetItems[oldName]['coin'];
 							}
 							break;
@@ -596,7 +634,7 @@ Vue.component('custom-contents', {
 		'data.special_abilities': {
 			deep: true, immediate: true,
 			handler: function (val, oldVal) {
-				for(idx in val){
+				for (idx in val) {
 					// 文字の大きさジャストフィットをフック
 					$('input#special_ability_' + (Number(idx) + 1)).val(val[idx].text).trigger('change', [true]);
 				}
@@ -606,7 +644,7 @@ Vue.component('custom-contents', {
 		'data.weak_abilities': {
 			deep: true, immediate: true,
 			handler: function (val, oldVal) {
-				for(idx in val){
+				for (idx in val) {
 					// 文字の大きさジャストフィットをフック
 					$('input#weak_ability_' + (Number(idx) + 1)).val(val[idx].text).trigger('change', [true]);
 				}
@@ -616,7 +654,7 @@ Vue.component('custom-contents', {
 		'data.friends': {
 			deep: true, immediate: true,
 			handler: function (val, oldVal) {
-				for(idx in val){
+				for (idx in val) {
 					// 文字の大きさジャストフィットをフック
 					$('input.friends.friends_' + (Number(idx) + 1)).val(val[idx].name).trigger('change', [true]);
 				}
