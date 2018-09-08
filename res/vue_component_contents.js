@@ -595,7 +595,6 @@ Vue.component('custom-contents', {
 							if (this.presetItems[oldName]) {
 								this.itemPriceAll -= this.presetItems[oldName]['coin'];
 							}
-							break;
 						}
 					}
 				}
