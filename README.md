@@ -2,7 +2,7 @@
 ====
 
 Forked from http://mihikari.sakura.ne.jp/kemonofriends/1/charactersheet/
-by [@HillTop_TRPG](https://twitter.com/HillTop_TRPG)
+(original made by [@HillTop_TRPG](https://twitter.com/HillTop_TRPG))
 
 ## Description
 

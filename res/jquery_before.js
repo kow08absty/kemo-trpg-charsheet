@@ -40,7 +40,7 @@ $(document).on("change", "input[type=text]", function (e) {
 	let $this = $(e.target);
 	if ($this.val())
 		$this.flowtype({
-			maximum: $this.width() * 2,
+			maximum: 9999,
 			minimum: 1,
 			maxFont: 22,
 			minFont: 1,
@@ -52,7 +52,7 @@ $(document).on("change", "select", function (e) {
 	let $this = $(e.target);
 	if ($this.val())
 		$this.flowtype({
-			maximum: $this.width() * 2,
+			maximum: 9999,
 			minimum: 1,
 			maxFont: 22,
 			minFont: 1,

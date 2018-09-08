@@ -156,7 +156,7 @@ $uuidv4 = Util::isAvailableUuidV4(str_replace(BASE_URI, '', $_SERVER['REQUEST_UR
 								$('img#icon').attr('src', json['icon']);
 							obj = JSON.parse(json['sheet']);
 							for(key in obj){
-								characterData[key] = obj[key];
+								characterData[key] = JSON.parse(JSON.stringify(obj[key]));
 							}
 						});
 						$('input#uuidv4').val("<?php echo $uuidv4; ?>");

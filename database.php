@@ -48,11 +48,11 @@ const SHEETS_TABLE_NAME = 'charsheet';
 /**
  * @var const カラム配列
  */
-const SHEETS_COLUMNS = ['row_id', 'uuid', 'title', 'icon', 'sheet', 'editToken'];
+const SHEETS_COLUMNS = ['row_id', 'uuid', 'title', 'icon', 'sheet', 'editToken', 'password'];
 /**
  * @var const カラム定義配列
  */
-const SHEETS_COLUMN_SPECS = ['integer primary key', 'text not null', 'text', 'text', 'blob', 'text'];
+const SHEETS_COLUMN_SPECS = ['integer primary key', 'text not null', 'text', 'text', 'blob', 'text', 'text'];
 
 
 // PDO Setup
