@@ -63,15 +63,15 @@ $(document).on("change", "select", function (e) {
 // アイテムプリセット制御の動作を一括登録
 $(document).on("click", "html", (e) => {
 	const $target = $(e.target);
-	if ($target.hasClass('item_name')) {
+	if (!$target.hasClass('item_name')) {
 		vm.hideItemPreset();
 	}
 }).on("focus", "input, textarea, div.checkbox, select", (e) => {
 	const $target = $(e.target);
-	if ($target.hasClass('item_name')) {
+	const matches = $target.attr('class').match(/item_(\d)/);
+	if (!$target.hasClass('item_name')) {
 		vm.hideItemPreset();
-	} else {
-        const matches = $target.attr('class').match(/item_(\d)/);
+	} else if(matches) {
         vm.showItemPreset(Number(matches[1]) - 1);
     }
 });
