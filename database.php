@@ -32,7 +32,7 @@ use kow08absty\Util;
  * @var const PDOコンストラクタに渡す接続用文字列
  */
 const SHEETS_DSN = 'sqlite:./res/kemoTrpgSheets.sqlite';
-//SHEETS_DSN = 'mysql:dbname=kemoTrpgSheets;hostname=localhost';
+//const SHEETS_DSN = 'mysql:dbname=kemoTrpgSheets;hostname=localhost';
 /**
  * @var const PDOコンストラクタに渡すユーザー名（必要な場合）
  */
