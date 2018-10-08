@@ -330,8 +330,8 @@ $uuidv4 = Util::isAvailableUuidV4(str_replace(BASE_URI, '', $_SERVER['REQUEST_UR
 						<span>削除</span>
 					</button></li>
 					<?php endif; ?>
-					<li><button id='tool_close' class="tool_switch_small_screen">とじる</button></li>
 				</ul>
+				<button id='tool_close' class="tool_switch_small_screen">とじる</button>
 			</div>
 			<div id="render_space">
 				<div id="app">

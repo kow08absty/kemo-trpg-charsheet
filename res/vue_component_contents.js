@@ -1,4 +1,4 @@
-var backgroundImage = {
+const backgroundImage = {
 	"normal": "./res/image/sheet_normal.png",
 	"blue": "./res/image/sheet_blue.png",
 	"green": "./res/image/sheet_green.png",
@@ -208,8 +208,8 @@ Vue.component('custom-contents', {
 				alert('このブラウザには対応していません');
 			}
 
-			var pdfValid = false;
-			var userAgent = window.navigator.userAgent.toLowerCase();
+			let pdfValid = false;
+			const userAgent = window.navigator.userAgent.toLowerCase();
 			if (userAgent.indexOf('msie') != -1 ||
 				userAgent.indexOf('trident') != -1) {
 				// IE
