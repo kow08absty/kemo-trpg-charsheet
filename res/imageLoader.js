@@ -1,3 +1,5 @@
+'use strict';
+
 const imageLoader = function() {
 
 	let clickSelectFile = function() {
