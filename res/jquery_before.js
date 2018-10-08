@@ -2,7 +2,7 @@
 function fEnterChangeTab() {
 
 	// ターゲット一覧
-	let $items = $("input:not([type=radio]), #image_div span, select, textarea, div.checkbox");
+	const $items = $("input:not([type=radio]), #image_div span, select, textarea, div.checkbox");
 
 	$items.keypress(function (e) {
 		let c = e.which ? e.which : e.keyCode; // クロスブラウザ対応
@@ -18,7 +18,7 @@ function fEnterChangeTab() {
 					if (index < 0) index = nLength - 1;
 				}
 
-				let $target = $items.eq(index);
+				const $target = $items.eq(index);
 
 				if ($target.attr("readonly") != "readonly" &&
 					$target.prop("disabled") != true &&
@@ -37,7 +37,7 @@ function fEnterChangeTab() {
 console.log("登録！！！");
 
 $(document).on("change", "input[type=text]", function (e) {
-	let $this = $(e.target);
+	const $this = $(e.target);
 	if ($this.val())
 		$this.flowtype({
 			maximum: 9999,
@@ -49,7 +49,7 @@ $(document).on("change", "input[type=text]", function (e) {
 });
 
 $(document).on("change", "select", function (e) {
-	let $this = $(e.target);
+	const $this = $(e.target);
 	if ($this.val())
 		$this.flowtype({
 			maximum: 9999,
@@ -62,15 +62,16 @@ $(document).on("change", "select", function (e) {
 
 // アイテムプリセット制御の動作を一括登録
 $(document).on("click", "html", (e) => {
-	if (e.target.className.split(' ').indexOf('item_name') == -1) {
+	const $target = $(e.target);
+	if ($target.hasClass('item_name')) {
 		vm.hideItemPreset();
 	}
 }).on("focus", "input, textarea, div.checkbox, select", (e) => {
-    let classArr = e.target.className.split(' ');
-	if (classArr.indexOf('item_name') == -1) {
+	const $target = $(e.target);
+	if ($target.hasClass('item_name')) {
 		vm.hideItemPreset();
 	} else {
-        let matches = e.target.className.match(/item_(\d)/);
+        const matches = $target.attr('class').match(/item_(\d)/);
         vm.showItemPreset(Number(matches[1]) - 1);
     }
 });
