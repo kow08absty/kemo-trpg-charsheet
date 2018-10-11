@@ -1,3 +1,5 @@
+'use strict';
+
 Vue.component('custom-footer', {
 	template: `
 	<footer>
@@ -76,7 +78,7 @@ Vue.component('custom-footer', {
 		},
 		createLogText: function(...targets) {
 			let text = "$watch - ";
-			for (target of targets) {
+			for (let target of targets) {
 				let targetObj = this;
 				for (tar of target.split(".")) {
 					targetObj = targetObj[tar];
@@ -90,7 +92,7 @@ Vue.component('custom-footer', {
 			if (!text) text = '';
 			if (targetObj instanceof Array) {
 				text += "[ ";
-				for (obj of targetObj) {
+				for (let obj of targetObj) {
 					text += this.createLogTextSub(obj) + ", ";
 				}
 				text = text.slice(0, text.length - 2);
@@ -103,7 +105,7 @@ Vue.component('custom-footer', {
 				text += targetObj;
 			} else {
 				text += "{ ";
-				for (item in targetObj) {
+				for (let item in targetObj) {
 					text += item + ": " + this.createLogTextSub(targetObj[item]) + ", ";
 				}
 				text = text.slice(0, text.length - 2);
@@ -111,8 +113,8 @@ Vue.component('custom-footer', {
 			}
 			return text;
 		}
-	},
-	watch: {
-		'pdf_capturing'           : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("pdf_capturing")); } }
-	}
+	}//,
+	// watch: {
+	// 	'pdf_capturing'           : { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("pdf_capturing")); } }
+	// }
 });

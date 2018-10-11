@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+@mixin keyframes($animation-name) {
+    @-webkit-keyframes #{$animation-name} {
+        @content;
+    }
+    @-moz-keyframes #{$animation-name} {
+        @content;
+    }
+    @keyframes #{$animation-name} {
+        @content;
+    }
+}
+
+@mixin animation($animations...) {
+    @if(length($animations) > 0) {
+                animation: $animations;
+           -moz-animation: $animations;
+        -webkit-animation: $animations;
+                animation-fill-mode: both;
+           -moz-animation-fill-mode: both;
+        -webkit-animation-fill-mode: both;
+    }
+}
+
+@mixin applyTransit($transitions...) {
+    @if(length($transitions) > 0) {
+                transition: $transitions;
+           -moz-transition: $transitions;
+        -webkit-transition: $transitions;
+    }
+    @else {
+                transition: all 0.4s ease-in-out;
+           -moz-transition: all 0.4s ease-in-out;
+        -webkit-transition: all 0.4s ease-in-out;
+    }
+}

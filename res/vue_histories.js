@@ -1,3 +1,5 @@
+'use strict';
+
 const CONST_HISTORIES = [
 	{
 		date: "2018/09/08",

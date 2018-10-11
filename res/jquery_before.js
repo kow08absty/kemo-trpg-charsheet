@@ -1,3 +1,5 @@
+'use strict';
+
 // Enterキーで次の部品にフォーカスを移す
 function fEnterChangeTab() {
 
@@ -66,8 +68,17 @@ $(document).on("click", "html", (e) => {
 	if (!$target.hasClass('item_name')) {
 		vm.hideItemPreset();
 	}
-}).on("focus", "input, textarea, div.checkbox, select", (e) => {
+})
+.on('keydown', 'input', (e) => {
 	const $target = $(e.target);
+	if ($target.hasClass('item_name')) {
+		vm.hideItemPreset();
+	}
+})
+.on("focus", "input, textarea, div.checkbox, select", (e) => {
+	const $target = $(e.target);
+	if(!$target.attr('class'))
+		return;
 	const matches = $target.attr('class').match(/item_(\d)/);
 	if (!$target.hasClass('item_name')) {
 		vm.hideItemPreset();

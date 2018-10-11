@@ -21,7 +21,7 @@ const pdfSaver = function() {
 	let getFileName = function() {
 
 		// ファイル名はキャラ名か現在日付
-		let fileName = vm.getSaveJson()["name"];
+		let fileName = vm.$refs.contents.data.name;
 		if (!fileName || fileName.length == 0) {
 			fileName = getNow();
 		}
@@ -38,44 +38,39 @@ const pdfSaver = function() {
 	};
 
 	return {
-		doSave: function() {
-
+		doSave: function(callback = ()=>{}) {
 			vm.setPdfCapturing(true);
 			no_scroll();
 			$("div#render_space").addClass('rendering');
 			$("div#content_wrapper").css('display', 'block');
 			$("html,body").animate({ scrollTop: 0 }, 200);
-
-			setTimeout(function() {
-
-				setTimeout(function() {
-					showOverlay("PDFファイルを作っているよ。<br>ちょっと待ってね。");
-				}, 0);
-
+			setTimeout(()=>{
 				html2canvas(document.getElementById("render_space"), {
 					onrendered: function (canvas) {
-						var dataURI = canvas.toDataURL("image/png");
+						const dataURI = canvas.toDataURL("image/png");
 
-						var pdf = new jsPDF();
+						const pdf = new jsPDF();
 
 						pdf.addImage(dataURI, 'JPEG', 0, 0);
 
-						// ファイル名
-						var fileName = getFileName();
-						fileName += ".pdf";
+						setTimeout(() => {
+							pdf.save(getFileName() + ".pdf");
 
-						pdf.save(fileName);
-
-						showOverlay(false);
-						vm.setPdfCapturing(false);
-						return_scroll();
-						$("button#tool_menu").css('display', '');
-						$("div#render_space").removeClass('rendering');
-						$("div#content_wrapper").css('display', '');
+							vm.$refs.overlay.showOverlay(false);
+							vm.setPdfCapturing(false);
+							return_scroll();
+							$("button#tool_menu").css('display', '');
+							$("div#render_space").removeClass('rendering');
+							$("div#content_wrapper").css('display', '');
+							callback();
+						}, 180);
 					}
 				});
-			}, 200);
 
+				setTimeout(() => {
+					vm.$refs.overlay.showOverlay("PDFファイルを作っているよ。<br>ちょっと待ってね。");
+				}, 60);
+			}, 200);
 		}
 	}
 }();

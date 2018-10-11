@@ -1,0 +1,21 @@
+{
+  "name": "kemo_trpg_pc_making",
+  "version": "1.0.0",
+  "description": "",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "node-sass": "^4.9.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build-css": "node-sass --output-style compressed --include-path scss res/main.scss res/main.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kow08absty/kemo-trpg-charsheet.git"
+  },
+  "author": "",
+  "license": "ISC"
+}

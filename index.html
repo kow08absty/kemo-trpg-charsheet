@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)http://mihikari.sakura.ne.jp/kemonofriends/1/charactersheet/ -->
+<html lang="ja">
+	<head>
+		<meta http-equiv="Charset" content="UTF-8" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+		<title>“てーぶるちほーの大冒険”フレンズシート</title>
+		<!-- meta name="keywords" content="けものフレンズ,キャラクターシート,てーぶるちほーの大冒険,フレンズシート" />
+		<meta name="description" content="けものフレンズTRPG「てーぶるちほーの大冒険」のフレンズシート(キャラクターシート)の入力フォームです。" />
+		<meta name="author" content="HillTop" /-->
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel="stylesheet" type="text/css" href="./res/main.css" />
+		<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="./res/clipboard.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="./res/flowtype.js"></script>
+		<script type="text/javascript" src="./res/FileSaver.js"></script>
+		<script type="text/javascript" src="./res/save_pdf.js"></script>
+		<script type="text/javascript" src="./res/imageLoader.js"></script>
+		<script type="text/javascript" src="./res/html2canvas.js"></script>
+		<script type="text/javascript" src="./res/jspdf.debug.js"></script>
+		<script type="text/javascript" src="./res/vue.min.js"></script>
+
+		<script type="text/javascript" id="data_head">
+			'use strict';
+			const BASE_URI = '/';
+
+			const matches = location.href.match(/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
+			let uuidv4 = '';
+			if(matches){
+				uuidv4 = matches[0];
+			}
+		</script>
+		<script type="text/javascript" src="./res/jquery_before.js"></script>
+	</head>
+	<body>
+		<div id='content_wrapper'>
+			<custom-toolbox ref="toolbox"></custom-toolbox>
+			<div id="render_space">
+				<custom-header ref="header"></custom-header>
+				<custom-contents ref="contents"></custom-contents>
+				<custom-overlay ref="overlay"></custom-overlay>
+				<custom-footer ref="footer"></custom-footer>
+			</div>
+		</div>
+
+		<button id='tool_menu' class="tool_switch_small_screen">保存めにゅー</button>
+
+		<script type="text/javascript" src="./res/vue_histories.js"></script>
+		<script type="text/javascript" src="./res/vue_component_header.js"></script>
+		<script type="text/javascript" src="./res/vue_component_toolbox.js"></script>
+		<script type="text/javascript" src="./res/vue_component_contents.js"></script>
+		<script type="text/javascript" src="./res/vue_component_overlay.js"></script>
+		<script type="text/javascript" src="./res/vue_component_footer.js"></script>
+		<script type="text/javascript">
+			'use strict';
+			const vm = new Vue({
+				el: '#content_wrapper',
+				methods: {
+					setImage: function (imageData, paddingLeft) {
+						this.$refs.contents.setImage(imageData, paddingLeft);
+					},
+					setImageError: function () {
+						this.$refs.contents.setImageError();
+					},
+					initial: function () {
+						this.$refs.contents.initial();
+					},
+					imageLoading: function () {
+						this.$refs.contents.imageLoading();
+					},
+					// getSaveJson: function () {
+					// 	return this.$refs.contents.getSaveJson();
+					// },
+					setPdfCapturing: function (flg) {
+						this.$refs.contents.setPdfCapturing(flg);
+						this.$refs.footer.setPdfCapturing(flg);
+					},
+					hideItemPreset: function () {
+						this.$refs.contents.selectItemPreset(false);
+					},
+					getVersionStrings: function () {
+						return CONST_HISTORIES[0].version;
+					},
+					showItemPreset: function (index) {
+						this.$refs.contents.showItemPreset(index);
+					},
+					// setCharacterData: function(data) {
+					// 	this.$refs.contents.setCharacterData(data);
+					// },
+					waitForReady: function (sw) {
+						this.$refs.toolbox.wait_for_ready = sw;
+						this.$refs.overlay.wait_for_ready = sw;
+					}
+				}
+			});
+
+			$(window).on('load', function(){
+				if(uuidv4){
+					vm.$refs.contents.is_data_loading = true;
+					$.ajax({
+						url: './database.php',
+						type: 'POST',
+						data: {
+							'q': 'is_exists',
+							'uuidv4': uuidv4
+						}
+					})
+					.done((data) => {
+						if(data == 'true'){
+							/**
+							 * Get token
+							 */
+							$.ajax({
+								url: './database.php',
+								type: 'POST',
+								data: {
+									'q': 'get_edit_token',
+									'uuidv4': uuidv4
+								}
+							})
+							.done((token) => {
+								vm.$refs.toolbox.edit_token = token;
+							});
+
+							/**
+							 * Get sheet data
+							 */
+							$.ajax({
+								url: './database.php',
+								type: 'POST',
+								data: {
+									'q': 'fetch_data',
+									'uuidv4': uuidv4
+								}
+							})
+							.done((data) => {
+								const json = JSON.parse(data);
+								vm.$refs.toolbox.title = json['title'];
+								if(json['icon'])
+									$('img#icon').attr('src', json['icon']);
+								const sheet_data = JSON.parse(json['sheet']);
+								Object.keys(sheet_data).forEach(function(key){
+									vm.$refs.contents.data[key] = sheet_data[key];
+								});
+								vm.waitForReady(false);
+								vm.$refs.contents.is_data_loading = false;
+							});
+							$('li#display_url').show();
+						} else {
+							$('div.loading-icon-container').remove();
+							vm.$refs.overlay.showOverlay("<span>読み込み失敗・・・<br>URLを間違えていないか確認しよう<br>または <a href='#' onclick='location.href=" + vm.$refs.toolbox.createPermalink() + "'>新しいフレンズシートに入力</a></span>");
+						}
+					});
+				} else {
+					vm.waitForReady(false);
+					vm.$refs.contents.is_data_loading = false;
+				}
+                new ClipboardJS('button#copyLink');
+			});
+
+			vm.initial();
+			vm.$refs.toolbox.base_uri = BASE_URI;
+			vm.$refs.toolbox.uuidv4 = uuidv4;
+		</script>
+		<script type="text/javascript" src="./res/jquery_after.js"></script>
+
+</body></html>

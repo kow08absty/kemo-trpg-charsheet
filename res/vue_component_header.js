@@ -1,3 +1,5 @@
+'use strict';
+
 Vue.component('custom-header', {
 	template: `
 		<header>

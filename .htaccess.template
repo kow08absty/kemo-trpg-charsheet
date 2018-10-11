@@ -2,11 +2,11 @@
 
 # need to run 'a2enmod rewrite'
 RewriteEngine On
-# index.phpが置かれている、Webルートからの相対パス
+# index.htmlが置かれている、Webルートからの相対パス
 RewriteBase /kemo_trpg_pc_making/
-# index.phpの正規表現
-RewriteRule ^index\.php$ - [L]
+# index.htmlの正規表現
+RewriteRule ^index\.html$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 # RewriteBase + RewriteRule
-RewriteRule . /kemo_trpg_pc_making/index.php [L]
+RewriteRule . /kemo_trpg_pc_making/index.html [L]
