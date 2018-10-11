@@ -442,31 +442,6 @@ Vue.component('custom-contents', {
 				}, 700);
 			}, 200);
 		},
-		/**
-		 * visibilityを使ったjQueryフェードイン
-		 * @param jQuery $target ターゲットjQueryアイテム
-		 * @param Number duration アニメーションの長さ（ミリ秒）
-		 * @param lambda callback アニメーション終了時のコールバック
-		 */
-		visibilityFadeIn: function ($target, duration = 300, callback = function () { }) {
-			$target
-				.css({ 'opacity': 0, 'visibility': 'visible' })
-				.animate({ 'opacity': 1 }, duration, callback);
-		},
-		/**
-		 * visibilityを使ったjQueryフェードアウト
-		 * @param jQuery $target ターゲットjQueryアイテム
-		 * @param Number duration アニメーションの長さ（ミリ秒）
-		 * @param lambda callback アニメーション終了時のコールバック
-		 */
-		visibilityFadeOut: function ($target, duration = 300, callback = function () { }) {
-			$target
-				.css({ 'opacity': 1, 'visibility': 'visible' })
-				.animate({ 'opacity': 0 }, duration, function () {
-					$target.css('visibility', 'hidden');
-					callback();
-				});
-		},
 		waitingForReady: function () {
 			return this.is_data_loading || this.is_img_loading;
 		},
@@ -572,9 +547,6 @@ Vue.component('custom-contents', {
 				this.startBlinkAnim($("#health_max"));
 				this.startBlinkAnim($("#health"));
 				this.startBlinkAnim($("#coin"));
-				// setTimeout(function() {
-				// 		alert("“げんき”と“ジャパリコイン”を再設定したよ。");
-				// }, 100);
 			}
 		},
 		'data.shine': { deep: true, immediate: true, handler: function (val, oldVal) { console.log(this.createLogText("data.shine")); } },
@@ -641,7 +613,6 @@ Vue.component('custom-contents', {
 						}
 					});
 				}
-				// this.$set(this.data, 'currentItemValueArr', JSON.parse(JSON.stringify(this.data.items)));
 				this.currentItemValueArr = JSON.parse(JSON.stringify(this.data.items));
 			}
 		},
@@ -669,9 +640,6 @@ Vue.component('custom-contents', {
 				console.log(this.createLogText("data.skill.name", "data.skill.type", "skill_effect", "data.skill.role"));
 				this.startBlinkAnim($("#wild_burst"));
 				this.startBlinkAnim($("#skill_effect"));
-				// setTimeout(function() {
-				// 		alert("“キラキラ最大値”と“野生解放上限”を変更したよ。");
-				// }, 100);
 			}
 		},
 		'data.special_abilities': {
