@@ -49,7 +49,7 @@
 			</div>
 		</div>
 
-		<button id='tool_menu' class="tool_switch_small_screen">保存めにゅー</button>
+		<button id="tool_menu" class="tool_switch_small_screen">保存めにゅー</button>
 
 		<script type="text/javascript" src="./res/vue_histories.js"></script>
 		<script type="text/javascript" src="./res/vue_component_header.js"></script>
@@ -155,7 +155,10 @@
 					vm.waitForReady(false);
 					vm.$refs.contents.is_data_loading = false;
 				}
-                new ClipboardJS('button#copyLink');
+				new ClipboardJS('button#copyLink');
+				$('button#tool_menu').click(() => {
+					vm.$refs.toolbox.b_show_tool = !vm.$refs.toolbox.b_show_tool;
+				});
 			});
 
 			vm.initial();

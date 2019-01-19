@@ -28,6 +28,8 @@ HillTop さん（[@HillTop_TRPG](https://twitter.com/HillTop_TRPG)）が作成�
 + Apache 2.4
 + PHP 7.1 or above
 + SQLite 3.22
++ node v10.15.0
++ npm 6.4.1
 
 ブラウザ:
 
@@ -37,12 +39,25 @@ HillTop さん（[@HillTop_TRPG](https://twitter.com/HillTop_TRPG)）が作成�
 
 ```
 $ git clone --recursive https://github.com/kow08absty/kemo-trpg-charsheet.git
+$ cd kemo-trpg-charsheet
 $ sh lib/dump-autoload
+```
+
+Sass コンパイル環境を整える場合、
+
+```
+$ npm install
+```
+
+sass -> css コンパイル時、
+
+```
+$ npm run build-css
 ```
 
 ## Licence
 
-Public Domain
+Apache 2.0
 
 ## Author
 

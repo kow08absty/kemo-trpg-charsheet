@@ -2,7 +2,7 @@
 
 Vue.component('custom-toolbox', {
     template: `
-<div id='tool_box' :class="{waitForReady: wait_for_ready}">
+<div id='tool_box' :class="{waitForReady: wait_for_ready, show: b_show_tool}">
     <ul id='tool_list'>
         <li><a class="button new_sheet" :href="home_uri" target="_blank">新規作成</button></li>
         <li class="separator"></li>
@@ -67,7 +67,7 @@ Vue.component('custom-toolbox', {
             <span>削除</span>
         </button></li>
     </ul>
-    <button id='tool_close' class="tool_switch_small_screen">とじる</button>
+    <button id='tool_close' class="tool_switch_small_screen" @click="b_show_tool=!b_show_tool">とじる</button>
 </div>
 `,
     data: function() {
@@ -86,7 +86,8 @@ Vue.component('custom-toolbox', {
                 is_saving: false,
                 is_pending: false
             },
-            wait_for_ready: true
+            wait_for_ready: true,
+            b_show_tool: window.innerWidth > 1000
         };
     },
     methods: {
