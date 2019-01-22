@@ -2,6 +2,14 @@
 
 const CONST_HISTORIES = [
 	{
+		date: "2019/01/22",
+		version: "2.1-db0.4",
+		lines: [
+			"Sassコンパイル環境等、不足分の説明をReadme.mdに追記。<br />",
+			"スマホ用レイアウトの「保存めにゅー」ボタンが生き返った！"
+		],
+	},
+	{
 		date: "2018/10/11",
 		version: "2.1-db0.3",
 		lines: [

@@ -1,5 +1,6 @@
 res/*.sqlite
 
 node_modules/*
+node_modules
 
 .htaccess

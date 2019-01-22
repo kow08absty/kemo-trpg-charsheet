@@ -43,6 +43,16 @@ $ cd kemo-trpg-charsheet
 $ sh lib/dump-autoload
 ```
 
+PHP PDO ラッパーライブラリの一部、php-sqlite3 が必要です
+
+```
+$ sudo apt install php-sqlite3  # based on Debian distro
+
+$ sudo yum install php-sqlite3  # based on RedHat distro
+```
+
+Windows で PHP 拡張機能を有効化する場合、```php.ini``` を編集し、```extention=php_sqlite3.dll``` をアンコメントしてください
+
 Sass コンパイル環境を整える場合、
 
 ```
