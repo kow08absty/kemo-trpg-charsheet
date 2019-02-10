@@ -2,6 +2,14 @@
 
 const CONST_HISTORIES = [
 	{
+		date: "2019/02/10",
+		version: "2.1-db0.4+patch0210",
+		lines: [
+			"タイプミスに気づかなかった。ご不便をおかけしてごめんなさいなのだ。<br />",
+			"エラーが引き続き起こる場合、<a href='https://www.google.com/search?q=chrome+%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%AF%E3%83%AA%E3%82%A2' target='_blank'>キャッシュをクリア</a> してみよう。"
+		],
+	},
+	{
 		date: "2019/01/22",
 		version: "2.1-db0.4",
 		lines: [
