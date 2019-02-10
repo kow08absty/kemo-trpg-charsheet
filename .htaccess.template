@@ -3,10 +3,10 @@
 # need to run 'a2enmod rewrite'
 RewriteEngine On
 # index.htmlが置かれている、Webルートからの相対パス
-RewriteBase /kemo_trpg_pc_making/
+RewriteBase /
 # index.htmlの正規表現
 RewriteRule ^index\.html$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 # RewriteBase + RewriteRule
-RewriteRule . /kemo_trpg_pc_making/index.html [L]
+RewriteRule . /index.html [L]
