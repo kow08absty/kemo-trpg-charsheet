@@ -4,7 +4,8 @@ Vue.component('custom-toolbox', {
     template: `
 <div id='tool_box' :class="{waitForReady: wait_for_ready, show: b_show_tool}">
     <ul id='tool_list'>
-        <li><a class="button new_sheet" :href="home_uri" target="_blank">新規作成</button></li>
+        <li><a class="button new_sheet" :href="home_uri" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 256 256"><path fill="white" fill-rule="evenodd" d="M 189.20,0.00 C 189.20,0.00 104.15,0.00 104.15,0.00 104.15,0.00 97.56,0.00 97.56,0.00 97.56,0.00 92.90,4.66 92.90,4.66 92.90,4.66 28.51,69.05 28.51,69.05 28.51,69.05 23.85,73.71 23.85,73.71 23.85,73.71 23.85,80.30 23.85,80.30 23.85,80.30 23.85,213.05 23.85,213.05 23.85,236.73 43.12,256.00 66.80,256.00 66.80,256.00 189.20,256.00 189.20,256.00 212.88,256.00 232.15,236.73 232.15,213.05 232.15,213.05 232.15,42.95 232.15,42.95 232.15,19.26 212.88,0.00 189.20,0.00 Z M 216.25,213.05 C 216.25,227.99 204.14,240.10 189.20,240.10 189.20,240.10 66.80,240.10 66.80,240.10 51.86,240.10 39.75,227.99 39.75,213.05 39.75,213.05 39.75,80.30 39.75,80.30 39.75,80.30 81.61,80.30 81.61,80.30 94.05,80.30 104.15,70.21 104.15,57.76 104.15,57.76 104.15,15.90 104.15,15.90 104.15,15.90 189.20,15.90 189.20,15.90 204.14,15.90 216.25,28.01 216.25,42.95 216.25,42.95 216.25,213.05 216.25,213.05 216.25,213.05 216.25,213.05 216.25,213.05 Z M 86.21,180.80 C 86.21,180.80 86.21,220.39 86.21,220.39 86.21,220.39 125.81,220.39 125.81,220.39 125.81,220.39 220.56,125.64 220.56,125.64 220.56,125.64 180.97,86.04 180.97,86.04 180.97,86.04 86.21,180.80 86.21,180.80 Z M 223.39,122.81 C 223.39,122.81 241.07,105.14 241.07,105.14 243.90,102.31 252.38,93.82 239.66,81.09 239.66,81.09 225.51,66.95 225.51,66.95 212.79,54.22 204.30,62.71 201.47,65.54 201.47,65.54 183.79,83.22 183.79,83.22 183.79,83.22 223.39,122.81 223.39,122.81 Z" /><path fill="white" d="M 235.41,85.34 C 243.90,93.82 239.66,98.07 236.83,100.89 236.83,100.89 223.39,114.33 223.39,114.33 223.39,114.33 192.28,83.22 192.28,83.22 192.28,83.22 205.71,69.78 205.71,69.78 208.54,66.95 212.79,62.71 221.27,71.20 221.27,71.20 235.41,85.34 235.41,85.34 Z M 180.97,94.53 C 180.97,94.53 212.08,125.64 212.08,125.64 212.08,125.64 122.98,214.74 122.98,214.74 122.98,214.74 91.87,214.74 91.87,214.74 91.87,214.74 91.87,183.63 91.87,183.63 91.87,183.63 180.97,94.53 180.97,94.53 Z" /></svg>
+            新規作成</button></li>
         <li class="separator"></li>
         <li>Title: <input type="text" :value="title" :disabled="isSaving()" /></li>
         <li><button id="saveDB" @click="saveDB();" :disabled="isSaving()">
@@ -111,7 +112,7 @@ Vue.component('custom-toolbox', {
                 });
             }
         },
-        createParmaLink: function(suffix = ''){
+        createPermalink: function(suffix = ''){
             return location.protocol + '//' + location.hostname + this.base_uri + suffix;
         },
         saveDB: function() {
@@ -151,7 +152,7 @@ Vue.component('custom-toolbox', {
                     if(!$('ul#tool_list li div.info').length)
                         $('button#saveDB').parent().append($('<div class="info" style="color:darkred;animation:loadingIconOpaccity 1s;">INFO: 保存失敗</div>'));
                 } else {
-                    location.href = vm.createParmaLink(data);
+                    location.href = vm.createPermalink(data);
                     return;
                 }
                 setTimeout(()=>{
@@ -177,13 +178,13 @@ Vue.component('custom-toolbox', {
 		'uuidv4': {
             deep: false, immediate: true,
             handler: function (val, oldVal) {
-                this.permalink = this.createParmaLink(val);
+                this.permalink = this.createPermalink(val);
             }
         },
         'home_uri': {
             deep: false, immediate: true,
             handler: function (val, oldVal) {
-                this.home_uri = this.createParmaLink();
+                this.home_uri = this.createPermalink();
             }
         }
 	}

@@ -28,6 +28,7 @@
 
 		<script type="text/javascript" id="data_head">
 			'use strict';
+		    // .htaccess のRewriteBase と同じ値
 			const BASE_URI = '/';
 
 			const matches = location.href.match(/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
@@ -156,6 +157,11 @@
 					vm.$refs.contents.is_data_loading = false;
 				}
 				new ClipboardJS('button#copyLink');
+				$('button#copyLink').click(() => {
+					$('button#copyLink')
+						.css('opacity', '0.6')
+						.attr('title', 'コピーOK');
+				});
 				$('button#tool_menu').click(() => {
 					vm.$refs.toolbox.b_show_tool = !vm.$refs.toolbox.b_show_tool;
 				});

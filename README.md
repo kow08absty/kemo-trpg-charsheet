@@ -65,6 +65,31 @@ sass -> css コンパイル時、
 $ npm run build-css
 ```
 
+パーマリンクを通して UUID を解釈するため、Apache の設定と index.html をちょいちょいといじる必要があります
+.htaccess.template を .htaccess にコピーし、設定を見直してください
+
+**.htaccess**
+```
+# アクセスするURLが https://example.com/ の場合、
+RewriteBase /
+RewriteRule . /index.html [L]
+
+# アクセスするURLが https://example.com/charsheet/ の場合、
+RewriteBase /charsheet/
+RewriteRule . /charsheet/index.html [L]
+```
+
+**index.html**
+
+```
+...snip...
+            <script type="text/javascript" id="data_head">
+                'use strict';
+                // .htaccess のRewriteBase と同じ値
+                const BASE_URI = '/';
+...snip...
+```
+
 ## Licence
 
 Apache 2.0
