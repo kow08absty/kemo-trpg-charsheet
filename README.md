@@ -28,8 +28,8 @@ HillTop さん（[@HillTop_TRPG](https://twitter.com/HillTop_TRPG)）が作成�
 + Apache 2.4
 + PHP 7.1 or above
 + SQLite 3.22
-+ node v10.15.0
-+ npm 6.4.1
++ NodeJS v10.15.0 or above
++ npm 6.4.1 or above
 
 ブラウザ:
 
